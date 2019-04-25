@@ -1,0 +1,164 @@
+/**
+ ***************************************(C) COPYRIGHT 2019 TJUT***************************************
+ * @file       keyscan.c
+ * @brief      
+ * @note         
+ * @Version    V2.0.0
+ * @Date       Mar-09-2019      
+ ***************************************(C) COPYRIGHT 2019 TJUT***************************************
+ */
+ 
+#include "keyscan.h"
+
+union KEY_Reg keyboard;
+union SW_Reg SWstate;
+
+Key_STATUS bottom;
+Key_STATUS key_X;
+
+uint16_t kk;
+
+void key_scan(void)
+{
+	switch_scan();
+	Key_GetStatus(&key_X, keyboard.Posision.X);
+	
+	kk = HAL_ADC_GetValue(&hadc1)/100;
+	Key_GetStatus(&bottom, (kk<35&&kk>30)?(1):(0));
+}
+
+void IOInit(void){
+	
+	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+	
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_2, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_3, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_5, GPIO_PIN_SET);
+	
+	Key_GetStatusInit(&bottom, RISE_TRIGGER, COUNT_UP, ENABLE, 1, 3);
+	Key_GetStatusInit(&key_X,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
+	
+	oled_clear(Pen_Clear);
+	oled_LOGO();
+	oled_refresh_gram();
+	
+	for(;;){
+		switch_scan();
+		if(SWstate.value == KEY_OFF_UP){
+			break;
+		}
+		TIM12->CCR1 = 250;
+	}
+			
+	TIM12->CCR1 = 0;
+}
+
+void switch_scan(void)
+{
+	SWstate.sw_buff.L=rc.sw1;
+	SWstate.sw_buff.R=rc.sw2;
+	
+}
+
+void buttom_scan(void)
+{
+	HAL_ADC_Start(&hadc1);
+		
+}
+
+static int Key_GetStatusInit(Key_STATUS* key_t, 
+															uint8_t triggerMode,
+															uint8_t countMode,
+															uint8_t vibration,
+															uint32_t countMIN,
+															uint32_t countMAX)
+{
+	key_t->Init.triggerMode = triggerMode;
+	key_t->Init.countMode   = countMode;
+	key_t->Init.vibration   = vibration;
+	key_t->Init.countMIN    = countMIN;
+	key_t->Init.countMAX    = countMAX;
+	
+	key_t->countNUM = countMode?countMAX:countMIN;
+	
+	if(countMIN >= countMAX)
+	{ 
+		key_t->Init.countMIN  = 0;
+		key_t->Init.countMAX  = 0;
+		return HAL_ERROR;
+	} 
+	else
+	{
+		return HAL_OK;
+	}
+}
+
+void Key_GetStatus(Key_STATUS* key, uint8_t keystste)
+{
+	HAL_ADC_Start(&hadc1);
+	uint8_t Read_Data = 0;  
+	if(keystste)  
+			Read_Data = 0x01;  
+	else  
+			Read_Data = 0x00;  
+
+	key->trigger = Read_Data & (Read_Data ^ key->cont);  
+	key->cont = Read_Data;  
+	
+	if(key->trigger)
+	{  
+		if(key->Init.triggerMode == 0)
+		{
+			if(key->trigger_times != 0xFF)
+			{    
+				key->trigger_times = 0xFF; 
+				key->bit = 1-key->bit; 
+				if(key->Init.countMode == 0)
+				{
+					key->countNUM++;
+					if(key->countNUM > key->Init.countMAX)
+					{
+						key->countNUM = (key->Init.vibration == 0)?(key->Init.countMAX):(key->Init.countMIN);
+					}
+				} else{
+					key->countNUM--;
+					if(key->countNUM < key->Init.countMIN)
+					{
+						key->countNUM = (key->Init.vibration == 0)?(key->Init.countMIN):(key->Init.countMAX);
+					}
+				}
+			}  
+		} else{
+			if(key->trigger_times == 0xFF)
+			{    
+				key->bit = 1-key->bit;
+				if(key->Init.countMode == 0)
+				{
+					key->countNUM++;
+					if(key->countNUM > key->Init.countMAX)
+					{
+						key->countNUM = (key->Init.vibration == 0)?(key->Init.countMAX):(key->Init.countMIN);
+					}
+				} else{
+					key->countNUM--;
+					if(key->countNUM < key->Init.countMIN)
+					{
+						key->countNUM = (key->Init.vibration == 0)?(key->Init.countMIN):(key->Init.countMAX);
+					}
+				}				
+			} 
+			if(key->trigger_times != 0xFF)
+			{     
+				key->trigger_times = 0xFF; 
+			}  
+		}	
+  }
+  else if(key->cont == 0)  
+  {    
+		key->trigger_times = 0x00;  
+  }  
+	osDelay(10);
+}

@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "stm32f1xx_hal.h": "c",
+        "bitset": "c",
+        "SystemInitial.h": "c",
+        "initial.h": "c",
+        "stm32f10x_rcc.h": "c",
+        "stm32f10x.h": "c",
+        "gpioinital.h": "c",
+        "tlv5619.h": "c"
+    },
+    "C_Cpp.intelliSenseEngineFallback": "Enabled",
+    "C_Cpp.errorSquiggles": "Disabled",
+    "editor.minimap.enabled": true
+}
