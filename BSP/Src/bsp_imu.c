@@ -167,7 +167,7 @@ static uint8_t ist_reg_read_by_mpu(uint8_t addr)
 
 /**
 	* @brief    initialize the MPU6500 I2C Slave 0 for I2C reading.
-* @param    device_address: slave device address, Address[6:0]
+	* @param    device_address: slave device address, Address[6:0]
 	* @retval   void
 	* @note     
 	*/

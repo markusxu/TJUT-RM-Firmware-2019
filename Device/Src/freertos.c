@@ -44,6 +44,8 @@
 #include "oled.h"
 #include "gpio.h"
 
+#include "commonTask.h"
+
 #include "display.h"
 #include "RemoteControl.h"
 #include "chassis.h"
@@ -56,7 +58,9 @@
 osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN Variables */
-//extern const unsigned char asc2_1206[95][12];
+osThreadId chassisTaskHandle;
+osThreadId gimbalTaskHandle;
+osThreadId displayTaskHandle;
 
 /* USER CODE END Variables */
 
@@ -95,14 +99,14 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 	
-	osThreadDef(DisTask, Display_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(DisTask), NULL);
+	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 128);
+  displayTaskHandle =  osThreadCreate(osThread(displayTask), NULL);
 	
-	osThreadDef(ChassisTask, Chassis_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(ChassisTask), NULL);
+	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
+  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
 	
-	osThreadDef(GimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(GimbalTask), NULL);
+	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
+  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */

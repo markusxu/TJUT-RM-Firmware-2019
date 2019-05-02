@@ -13,14 +13,7 @@
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
-#include "adc.h"
-#include "bsp_uart.h"
-#include "bsp_imu.h"
-#include "bsp_can.h"
-#include "oled.h"
-#include "keyscan.h"
-#include "remotecontrol.h"
-#include "chassis.h"
+#include "cmsis_os.h"
 
 void display_rc(void);
 void display_moto6020(void);
