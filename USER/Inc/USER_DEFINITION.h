@@ -34,8 +34,8 @@
 #define GIMBAL_PIT_KI  1.4f
 #define GIMBAL_PIT_KD  265.8f
 
-#define YAW_CORRECTING_ANGLE 5461
-#define PIT_CORRECTING_ANGLE 0
+#define YAW_CORRECTING_ANGLE 0
+#define PIT_CORRECTING_ANGLE 2700
 
 #define YAW_OFFSET_ANGLE 0
 #define PIT_OFFSET_ANGLE 0
@@ -57,5 +57,5 @@
   * @}
 */ 
 
-#endif /* __MXCONSTANT_H */
+#endif /* __USER_DEFINITION_H */
 /************************ (C) COPYRIGHT TJUT_RoboMaster *****END OF FILE****/

@@ -631,16 +631,6 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\Src\bsp_uart.c</FilePath>
             </File>
-            <File>
-              <FileName>oled.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Src\oled.c</FilePath>
-            </File>
-            <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\BSP\Src\pid.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -652,19 +642,29 @@
               <FilePath>..\Function\Src\chassis.c</FilePath>
             </File>
             <File>
-              <FileName>display.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\display.c</FilePath>
-            </File>
-            <File>
               <FileName>gimbal.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\Src\gimbal.c</FilePath>
             </File>
             <File>
+              <FileName>display.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\display.c</FilePath>
+            </File>
+            <File>
               <FileName>keyscan.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\Src\keyscan.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\pid.c</FilePath>
             </File>
             <File>
               <FileName>remotecontrol.c</FileName>
