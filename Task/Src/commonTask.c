@@ -43,7 +43,7 @@ void display_Task(void const * argument)
 
 	for(;;)
 	{
-		if(bottom.countNUM == 1)display_rc();
+		if(bottom.countNUM == 1)display_refereeSystem();
 		if(bottom.countNUM == 2)display_moto6020();
 		if(bottom.countNUM == 3)oled_clear(Pen_Clear);
 		oled_refresh_gram();

@@ -34,6 +34,7 @@
 #include "chassis.h"
 
 extern rc_info_t rc;
+extern uint8_t re_buf[];
 
 void display_rc(void)
 {
@@ -48,3 +49,8 @@ void display_moto6020(void)
 	oled_printf(3,1,"TEMP_PIT: %2d",moto_pit.hall);
 	oled_printf(4,1,"TEMP_YAW: %2d",moto_yaw.hall);
 } 
+
+void display_refereeSystem(void)
+{
+	oled_printf(0,1,"%2X %2d %2X %2X",re_buf[0],(re_buf[1]|re_buf[2]<<8),re_buf[3],re_buf[4]);
+}

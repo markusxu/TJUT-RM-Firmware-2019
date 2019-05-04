@@ -44,13 +44,12 @@
 #include "oled.h"
 #include "gpio.h"
 
-#include "commonTask.h"
-
 #include "display.h"
 #include "RemoteControl.h"
 #include "chassis.h"
 #include "gimbal.h"
 #include "keyscan.h"
+#include "commonTask.h"
 
 /* USER CODE END Includes */
 
@@ -58,9 +57,7 @@
 osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN Variables */
-osThreadId chassisTaskHandle;
-osThreadId gimbalTaskHandle;
-osThreadId displayTaskHandle;
+//extern const unsigned char asc2_1206[95][12];
 
 /* USER CODE END Variables */
 
@@ -99,14 +96,14 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 	
-	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 128);
-  displayTaskHandle =  osThreadCreate(osThread(displayTask), NULL);
+	osThreadDef(DisTask, display_Task, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(DisTask), NULL);
 	
-	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
-  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
+	osThreadDef(ChassisTask, Chassis_Task, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(ChassisTask), NULL);
 	
-	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
-  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
+	osThreadDef(GimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
+  osThreadCreate(osThread(GimbalTask), NULL);
 	
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -133,7 +130,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {   
-//		key_scan();
+		key_scan();
 		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
 
