@@ -133,7 +133,7 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {   
-		key_scan();
+//		key_scan();
 		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
 
