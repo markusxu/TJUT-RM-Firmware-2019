@@ -22,8 +22,8 @@
 #define DBUS_HUART       huart1 
 
 /* for referee system reciever */
-#define RE_MAX_LEN     (25)
-#define RE_BUFLEN      (25)
+#define RE_MAX_LEN     (120)
+#define RE_BUFLEN      (120)
 #define RE_HUART       huart3 
 
 /** 
