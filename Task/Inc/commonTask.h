@@ -28,5 +28,6 @@
 #define __COMMONTASK__H
 
 void display_Task(void const * argument);
+void unpack_Task(void const * argument);
 
 #endif
