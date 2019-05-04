@@ -49,6 +49,7 @@
 #include "chassis.h"
 #include "gimbal.h"
 #include "keyscan.h"
+#include "commonTask.h"
 
 /* USER CODE END Includes */
 
@@ -95,7 +96,7 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 	
-	osThreadDef(DisTask, Display_Task, osPriorityNormal, 0, 128);
+	osThreadDef(DisTask, display_Task, osPriorityNormal, 0, 128);
   osThreadCreate(osThread(DisTask), NULL);
 	
 	osThreadDef(ChassisTask, Chassis_Task, osPriorityNormal, 0, 128);
