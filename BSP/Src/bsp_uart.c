@@ -149,13 +149,13 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		__HAL_DMA_DISABLE(huart->hdmarx);
 
 		/* handle dbus data dbus_buf from DMA */
-		if ((DBUS_MAX_LEN - dma_current_data_counter(huart->hdmarx->Instance)) == DBUS_BUFLEN)
+		if ((RE_MAX_LEN - dma_current_data_counter(huart->hdmarx->Instance)) == RE_BUFLEN)
 		{
-			rc_callback_handler(&rc, dbus_buf);	
+			
 		}
 		
 		/* restart dma transmission */
-		__HAL_DMA_SET_COUNTER(huart->hdmarx, DBUS_MAX_LEN);
+		__HAL_DMA_SET_COUNTER(huart->hdmarx, RE_MAX_LEN);
 		__HAL_DMA_ENABLE(huart->hdmarx);
 	}
 }

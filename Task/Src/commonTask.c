@@ -40,7 +40,7 @@ void display_Task(void const * argument)
 {
 	oled_clear(Pen_Clear);
 	oled_refresh_gram();
-	
+
 	for(;;)
 	{
 		if(bottom.countNUM == 1)display_rc();
