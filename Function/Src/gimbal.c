@@ -14,9 +14,9 @@ int16_t ddangle;
 
 void GimbalPIDInit(void){
 
-	PID_struct_init(&pid_yaw, POSITION_PID, 30000, 2000,
+	PID_struct_init(&pid_yaw, POSITION_PID, 30000, 5000,
 									GIMBAL_YAW_KP, GIMBAL_YAW_KI, GIMBAL_YAW_KD);
-	PID_struct_init(&pid_pit, POSITION_PID, 30000, 2000,
+	PID_struct_init(&pid_pit, POSITION_PID, 30000, 5000,
 									GIMBAL_PIT_KP, GIMBAL_PIT_KI, GIMBAL_PIT_KD);
 	PID_struct_init(&pid_poke, POSITION_PID, 16384, 5000,
 									1.5f,	0.1f,	0.0f);

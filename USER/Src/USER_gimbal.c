@@ -17,6 +17,7 @@ void GimTask_Loop(void){
 	switch (SWstate.value){
 		
 		case KEY_OFF_UP:
+			Set_Gimbal_Current(0, 450, 0);
 			break;
 		case KEY_CL_UP:
 		case KEY_HL_UP:
@@ -53,8 +54,8 @@ void GimTask_Loop(void){
 void MouseContral(void){
 	
 	mouse_move_angle = mouse_move_angle + rc.mouse.y;
-	(mouse_move_angle> 660)?(mouse_move_angle= 660):(mouse_move_angle);
-	(mouse_move_angle<-660)?(mouse_move_angle=-660):(mouse_move_angle);
+	(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
+	(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
 	
 	(rc.mouse.press_r)?(TIM2->CCR1 = 1300):(TIM2->CCR1 = 1000);
 	(rc.mouse.press_r && rc.mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);
