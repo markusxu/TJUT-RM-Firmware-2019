@@ -18,6 +18,7 @@ uint8_t dbus_buf[DBUS_BUFLEN];
 rc_info_t rc;
 
 uint8_t re_buf[RE_BUFLEN];
+re_info_t re;
 
 /**
   * @brief      enable global uart it and do not use DMA transfer done it
@@ -149,9 +150,9 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		__HAL_DMA_DISABLE(huart->hdmarx);
 
 		/* handle dbus data dbus_buf from DMA */
-		if ((RE_MAX_LEN - dma_current_data_counter(huart->hdmarx->Instance)) == RE_BUFLEN)
+		if (re_buf[0] == 0xA5)
 		{
-			
+			re.cmd_id = re_buf[5] | re_buf[6] << 8;
 		}
 		
 		/* restart dma transmission */

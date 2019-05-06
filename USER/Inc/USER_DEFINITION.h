@@ -30,9 +30,9 @@
 #define GIMBAL_YAW_KI  0.5f
 #define GIMBAL_YAW_KD  250.0f
 
-#define GIMBAL_PIT_KP  174.6f
+#define GIMBAL_PIT_KP  120.6f
 #define GIMBAL_PIT_KI  1.4f
-#define GIMBAL_PIT_KD  265.8f
+#define GIMBAL_PIT_KD  220.8f
 
 #define YAW_CORRECTING_ANGLE 0
 #define PIT_CORRECTING_ANGLE 2700

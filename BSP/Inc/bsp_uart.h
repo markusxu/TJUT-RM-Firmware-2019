@@ -62,6 +62,14 @@ typedef __packed struct
 	uint16_t key;
 } rc_info_t;
 
+typedef __packed struct
+{
+	uint8_t  frame_header[5];
+	uint16_t cmd_id;
+	uint8_t  data[16];
+	uint16_t CRC16;
+} re_info_t;
+
 void uart_receive_handler(UART_HandleTypeDef *huart);
 void Dbus_USRT_Init(void);
 void Referee_USRT_Init(void);
