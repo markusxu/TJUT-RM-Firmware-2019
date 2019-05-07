@@ -38,7 +38,7 @@
 extern rc_info_t rc;
 extern uint8_t re_buf[];
 extern re_info_t *re;
-extern ext_power_heat_data_t power;
+extern referee_data_t re_data;
 
 
 void display_rc(void)
@@ -58,7 +58,7 @@ void display_moto6020(void)
 void display_refereeSystem(void)
 {
 	oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
-	oled_printf(1,1,"Voltage: %02.3f V",((float)power.chassis_volt/1000));
-	oled_printf(2,1,"Current: %02.3f A",((float)power.chassis_current/1000));
-	oled_printf(3,1,"Power  : %04.1f W",power.chassis_power);
+	oled_printf(1,1,"Voltage: %02.3f V",((float)re_data.power_heat_data.chassis_volt/1000));
+	oled_printf(2,1,"Current:  %02.3f A",((float)re_data.power_heat_data.chassis_current/1000));
+	oled_printf(3,1,"Power  : %04.1f W",re_data.power_heat_data.chassis_power);
 }

@@ -64,6 +64,9 @@ osThreadId gimbalTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
+//osTimerId chassisTimerId;
+//osTimerId gimbalTimerId;
+
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -80,6 +83,8 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 /* Init FreeRTOS */
 
 void MX_FREERTOS_Init(void) {
+	
+	taskENTER_CRITICAL();
   /* USER CODE BEGIN Init */
        
   /* USER CODE END Init */
@@ -94,6 +99,14 @@ void MX_FREERTOS_Init(void) {
 
   /* USER CODE BEGIN RTOS_TIMERS */
   /* start timers, add new ones, ... */
+	
+	/* real time control task */
+//  osTimerDef(chassisTimer, Chassis_Task);
+//  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
+//    
+//  osTimerDef(gimTimer, Gimbal_Task);
+//  gimbalTimerId = osTimerCreate(osTimer(gimTimer), osTimerPeriodic, NULL);
+		
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
@@ -101,25 +114,28 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 	
+  /* USER CODE BEGIN RTOS_THREADS */
+  /* add threads, ... */
+	
 	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
   chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
 	
 	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
   gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
-	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 128);
+	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
   displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
 	
-	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 128);
+	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 512);
   unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
 	
-  /* USER CODE BEGIN RTOS_THREADS */
-  /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
   /* USER CODE END RTOS_QUEUES */
+	
+	taskEXIT_CRITICAL();
 }
 
 /* Control mode switching */
@@ -134,6 +150,9 @@ int set_v,set_spd[4];
 void StartDefaultTask(void const * argument)
 {
 //	Tell_the_FUCKING_Graphic_Card_TO_Display();
+	
+//	osTimerStart(gimbalTimerId, 1);
+//  osTimerStart(chassisTimerId,10);
 	
   /* Infinite loop */
   for(;;)
