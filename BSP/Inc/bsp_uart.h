@@ -66,7 +66,7 @@ typedef __packed struct
 {
 	uint8_t  frame_header[5];
 	uint16_t cmd_id;
-	uint8_t  data[16];
+	uint8_t  data[119];
 	uint16_t CRC16;
 } re_info_t;
 

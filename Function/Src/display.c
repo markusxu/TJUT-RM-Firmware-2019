@@ -30,11 +30,16 @@
 #include "bsp_can.h"
 #include "oled.h"
 #include "keyscan.h"
+#include "referee_info.h"
 #include "remotecontrol.h"
 #include "chassis.h"
+#include <string.h>
 
 extern rc_info_t rc;
 extern uint8_t re_buf[];
+extern re_info_t *re;
+extern ext_power_heat_data_t power;
+
 
 void display_rc(void)
 {
@@ -52,5 +57,8 @@ void display_moto6020(void)
 
 void display_refereeSystem(void)
 {
-	oled_printf(0,1,"%2X %2d %2X %2X",re_buf[0],(re_buf[1]|re_buf[2]<<8),re_buf[3],re_buf[4]);
+	oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
+	oled_printf(1,1,"Voltage: %02.3f V",((float)power.chassis_volt/1000));
+	oled_printf(2,1,"Current: %02.3f A",((float)power.chassis_current/1000));
+	oled_printf(3,1,"Power  : %04.1f W",power.chassis_power);
 }

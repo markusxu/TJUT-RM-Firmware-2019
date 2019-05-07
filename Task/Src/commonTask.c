@@ -28,8 +28,10 @@
 #include "oled.h"
 #include "display.h"
 #include "keyscan.h"
+#include "referee.h"
 #include "remotecontrol.h"
 #include <string.h>
+
 
 /**
  * @brief task of display
@@ -58,5 +60,8 @@ void display_Task(void const * argument)
  */
 void unpack_Task(void const * argument)
 {
-	
+	for(;;)
+	{
+		refereeDataUnpack();
+	}
 }

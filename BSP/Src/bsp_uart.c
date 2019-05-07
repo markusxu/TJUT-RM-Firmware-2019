@@ -13,12 +13,13 @@
 #include "bsp_uart.h"
 #include "usart.h"
 #include "mxconstants.h"
+#include <string.h>
 
 uint8_t dbus_buf[DBUS_BUFLEN];
 rc_info_t rc;
 
 uint8_t re_buf[RE_BUFLEN];
-re_info_t re;
+re_info_t *re = (re_info_t*)re_buf;
 
 /**
   * @brief      enable global uart it and do not use DMA transfer done it
@@ -152,7 +153,7 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		/* handle dbus data dbus_buf from DMA */
 		if (re_buf[0] == 0xA5)
 		{
-			re.cmd_id = re_buf[5] | re_buf[6] << 8;
+			memcpy(re, re_buf, 126);
 		}
 		
 		/* restart dma transmission */
