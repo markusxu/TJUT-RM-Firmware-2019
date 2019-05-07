@@ -17,6 +17,7 @@
 
 void display_rc(void);
 void display_moto6020(void);
+void display_refereeSystem(void);
 void Display_Task(void const * argument);
 
 #endif

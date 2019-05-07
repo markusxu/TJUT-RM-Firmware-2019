@@ -15,9 +15,16 @@
 #include "usart.h"
 
 #define UART_RX_DMA_SIZE (1024)
+
+/* for dji remote controler reciever */
 #define DBUS_MAX_LEN     (50)
 #define DBUS_BUFLEN      (18)
-#define DBUS_HUART       huart1 /* for dji remote controler reciever */
+#define DBUS_HUART       huart1 
+
+/* for referee system reciever */
+#define RE_MAX_LEN     (128)
+#define RE_BUFLEN      (128)
+#define RE_HUART       huart3 
 
 /** 
   * @brief  mouse control information
@@ -55,8 +62,17 @@ typedef __packed struct
 	uint16_t key;
 } rc_info_t;
 
+typedef __packed struct
+{
+	uint8_t  frame_header[5];
+	uint16_t cmd_id;
+	uint8_t  data[119];
+	uint16_t CRC16;
+} re_info_t;
+
 void uart_receive_handler(UART_HandleTypeDef *huart);
-void dbus_uart_init(void);
+void Dbus_USRT_Init(void);
+void Referee_USRT_Init(void);
 void USART_SendData(USART_TypeDef* USARTx, uint16_t Data);
 #endif
 

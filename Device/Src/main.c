@@ -107,7 +107,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
   
 	/* open dbus uart receive it */
-	dbus_uart_init();
+	Dbus_USRT_Init();
+	Referee_USRT_Init();
 	oled_init();
 	IOInit();
 	init_quaternion();		

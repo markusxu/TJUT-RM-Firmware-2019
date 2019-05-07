@@ -28,8 +28,10 @@
 #include "oled.h"
 #include "display.h"
 #include "keyscan.h"
+#include "referee.h"
 #include "remotecontrol.h"
 #include <string.h>
+
 
 /**
  * @brief task of display
@@ -40,13 +42,26 @@ void display_Task(void const * argument)
 {
 	oled_clear(Pen_Clear);
 	oled_refresh_gram();
-	
+
 	for(;;)
 	{
-		if(bottom.countNUM == 1)display_rc();
+		if(bottom.countNUM == 1)display_refereeSystem();
 		if(bottom.countNUM == 2)display_moto6020();
 		if(bottom.countNUM == 3)oled_clear(Pen_Clear);
 		oled_refresh_gram();
 	}
 
+}
+
+/**
+ * @brief task of unpacking referee system data
+ * 
+ * @param argument 
+ */
+void unpack_Task(void const * argument)
+{
+	for(;;)
+	{
+		refereeDataUnpack();
+	}
 }

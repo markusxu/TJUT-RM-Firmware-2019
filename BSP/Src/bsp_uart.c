@@ -13,11 +13,13 @@
 #include "bsp_uart.h"
 #include "usart.h"
 #include "mxconstants.h"
+#include <string.h>
 
-uint8_t  dbus_buf[DBUS_BUFLEN];
+uint8_t dbus_buf[DBUS_BUFLEN];
 rc_info_t rc;
 
-
+uint8_t re_buf[RE_BUFLEN];
+re_info_t *re = (re_info_t*)re_buf;
 
 /**
   * @brief      enable global uart it and do not use DMA transfer done it
@@ -141,6 +143,23 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		__HAL_DMA_SET_COUNTER(huart->hdmarx, DBUS_MAX_LEN);
 		__HAL_DMA_ENABLE(huart->hdmarx);
 	}
+	
+	/* handle received data in idle interrupt */
+	if (huart == &RE_HUART)
+	{
+		/* clear DMA transfer complete flag */
+		__HAL_DMA_DISABLE(huart->hdmarx);
+
+		/* handle dbus data dbus_buf from DMA */
+		if (re_buf[0] == 0xA5)
+		{
+			memcpy(re, re_buf, 126);
+		}
+		
+		/* restart dma transmission */
+		__HAL_DMA_SET_COUNTER(huart->hdmarx, RE_MAX_LEN);
+		__HAL_DMA_ENABLE(huart->hdmarx);
+	}
 }
 
 /**
@@ -159,14 +178,28 @@ void uart_receive_handler(UART_HandleTypeDef *huart)
 
 /**
   * @brief   initialize dbus uart device 
-  * @param   
+  * @param   NONE
   * @retval  
   */
-void dbus_uart_init(void)
+void Dbus_USRT_Init(void)
 {
 	/* open uart idle it */
 	__HAL_UART_CLEAR_IDLEFLAG(&DBUS_HUART);
 	__HAL_UART_ENABLE_IT(&DBUS_HUART, UART_IT_IDLE);
 
 	uart_receive_dma_no_it(&DBUS_HUART, dbus_buf, DBUS_MAX_LEN);
+}
+
+/**
+  * @brief   initialize referee system uart device 
+  * @param   NONE
+  * @retval  
+  */
+void Referee_USRT_Init(void)
+{
+	/* open uart idle it */
+	__HAL_UART_CLEAR_IDLEFLAG(&RE_HUART);
+	__HAL_UART_ENABLE_IT(&RE_HUART, UART_IT_IDLE);
+
+	uart_receive_dma_no_it(&RE_HUART, re_buf, RE_MAX_LEN);
 }
