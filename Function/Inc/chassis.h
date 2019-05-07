@@ -97,7 +97,7 @@ typedef struct
 void Mecanum_calc(float vx, float vy, float omega, const int each_max_spd, int16_t speed[]);
 void ChassisPIDInit(void);
 void Set_M620_Current(int16_t set_spd[]);
-void Chassis_Task(void const * argument);
+void Chassis_Task(void const *argu);
 
 
 extern Chassis_TypeDef Chassis1;

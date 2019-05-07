@@ -59,13 +59,13 @@ osThreadId defaultTaskHandle;
 /* USER CODE BEGIN Variables */
 //extern const unsigned char asc2_1206[95][12];
 
-//osThreadId chassisTaskHandle;
-//osThreadId gimbalTaskHandle;
+osThreadId chassisTaskHandle;
+osThreadId gimbalTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
-osTimerId chassisTimerId;
-osTimerId gimbalTimerId;
+//osTimerId chassisTimerId;
+//osTimerId gimbalTimerId;
 
 /* USER CODE END Variables */
 
@@ -101,11 +101,11 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
 	
 	/* real time control task */
-  osTimerDef(chassisTimer, Chassis_Task);
-  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
-    
-  osTimerDef(gimTimer, Gimbal_Task);
-  gimbalTimerId = osTimerCreate(osTimer(gimTimer), osTimerPeriodic, NULL);
+//  osTimerDef(chassisTimer, Chassis_Task);
+//  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
+//    
+//  osTimerDef(gimbalTimer, Gimbal_Task);
+//  gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
 		
   /* USER CODE END RTOS_TIMERS */
 
@@ -117,11 +117,11 @@ void MX_FREERTOS_Init(void) {
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
 	
-//	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
-//  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
-//	
-//	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
-//  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
+	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
+  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
+	
+	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
+  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
 	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
   displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
@@ -149,11 +149,6 @@ int set_v,set_spd[4];
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
-//	Tell_the_FUCKING_Graphic_Card_TO_Display();
-	
-//	osTimerStart(gimbalTimerId, 1);
-  osTimerStart(chassisTimerId,10);
-	
   /* Infinite loop */
   for(;;)
   {   

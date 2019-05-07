@@ -83,7 +83,7 @@ void Set_GM6020_Current(int16_t target_spd){
 }
 **********************************************************/
 
-void Gimbal_Task(void const * argument){
+void Gimbal_Task(void const *argu){
 	
 	GimTask_Init();
 

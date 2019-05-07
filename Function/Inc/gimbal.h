@@ -20,6 +20,6 @@ void GimbalInit(void);
 void Set_Gimbal_Current(int16_t yaw_target_spd, int16_t pit_target_spd, int16_t set_spd);
 //void Set_GM6020_Current(int16_t target_spd);
 void Angle_transimit(void);
-void Gimbal_Task(void const * argument);
+void Gimbal_Task(void const *argu);
 
 #endif
