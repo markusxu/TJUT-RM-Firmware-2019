@@ -64,8 +64,8 @@ osThreadId gimbalTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
-//osTimerId chassisTimerId;
-//osTimerId gimbalTimerId;
+osTimerId chassisTimerId;
+osTimerId gimbalTimerId;
 
 /* USER CODE END Variables */
 
@@ -101,11 +101,11 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
 	
 	/* real time control task */
-//  osTimerDef(chassisTimer, Chassis_Task);
-//  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
-//    
-//  osTimerDef(gimbalTimer, Gimbal_Task);
-//  gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
+  osTimerDef(chassisTimer, Chassis_Task);
+  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
+    
+  osTimerDef(gimbalTimer, Gimbal_Task);
+  gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
 		
   /* USER CODE END RTOS_TIMERS */
 
@@ -123,11 +123,11 @@ void MX_FREERTOS_Init(void) {
 	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
   gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
-	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
-  displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
-	
-	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 512);
-  unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
+//	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
+//  displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
+//	
+//	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 512);
+//  unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
 	
   /* USER CODE END RTOS_THREADS */
 

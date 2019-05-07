@@ -32,6 +32,8 @@
 #include "remotecontrol.h"
 #include <string.h>
 
+extern osTimerId chassisTimerId;
+extern osTimerId gimbalTimerId;
 
 /**
  * @brief task of display
@@ -60,6 +62,8 @@ void display_Task(void const * argument)
  */
 void unpack_Task(void const * argument)
 {
+	osTimerStart(chassisTimerId, 10);
+  osTimerStart(gimbalTimerId,   1);
 	for(;;)
 	{
 		refereeDataUnpack();
