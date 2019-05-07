@@ -30,13 +30,20 @@
 #include <string.h>
 
 extern re_info_t *re;
-ext_power_heat_data_t power;
+referee_data_t re_data;
 
 void refereeDataUnpack(void)
 {
-	if(re->cmd_id == 0x0202)
+	uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+	
+	switch(re->cmd_id)
 	{
-		memcpy(&power,&re->data[0],14);
+		case EXT_POWER_HEAT_DATA:
+		{
+			memcpy(&re_data.power_heat_data, &re->data, data_length);
+		}
+		
+		default:
+			break;
 	}
 }
-
