@@ -62,8 +62,6 @@ void unpack_Task(void const * argument)
 {
 	for(;;)
 	{
-		taskENTER_CRITICAL();
 		refereeDataUnpack();
-		taskEXIT_CRITICAL();
 	}
 }
