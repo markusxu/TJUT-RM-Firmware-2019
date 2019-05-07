@@ -59,6 +59,11 @@ osThreadId defaultTaskHandle;
 /* USER CODE BEGIN Variables */
 //extern const unsigned char asc2_1206[95][12];
 
+osThreadId chassisTaskHandle;
+osThreadId gimbalTaskHandle;
+osThreadId displayTaskHandle;
+osThreadId unpackTaskHandle;
+
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -96,14 +101,17 @@ void MX_FREERTOS_Init(void) {
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 	
-	osThreadDef(DisTask, display_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(DisTask), NULL);
+	osThreadDef(chassisTask, Chassis_Task, osPriorityNormal, 0, 128);
+  chassisTaskHandle = osThreadCreate(osThread(chassisTask), NULL);
 	
-	osThreadDef(ChassisTask, Chassis_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(ChassisTask), NULL);
+	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
+  gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
-	osThreadDef(GimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
-  osThreadCreate(osThread(GimbalTask), NULL);
+	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 128);
+  displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
+	
+	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 128);
+  unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
 	
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
