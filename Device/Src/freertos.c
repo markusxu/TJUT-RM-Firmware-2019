@@ -64,9 +64,10 @@ osThreadId gimbalTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
-//osTimerId chassisTimerId;
-//osTimerId gimbalTimerId;
-
+#ifdef USE_TIMER
+	osTimerId chassisTimerId;
+	osTimerId gimbalTimerId;
+#endif
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -101,12 +102,13 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
 	
 	/* real time control task */
-//  osTimerDef(chassisTimer, Chassis_Task);
-//  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
-//    
-//  osTimerDef(gimTimer, Gimbal_Task);
-//  gimbalTimerId = osTimerCreate(osTimer(gimTimer), osTimerPeriodic, NULL);
-		
+	#ifdef USE_TIMER
+		osTimerDef(chassisTimer, Chassis_Task);
+		chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
+			
+		osTimerDef(gimbalTimer, Gimbal_Task);
+		gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
+	#endif
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
@@ -149,19 +151,11 @@ int set_v,set_spd[4];
 /* StartDefaultTask function */
 void StartDefaultTask(void const * argument)
 {
-//	Tell_the_FUCKING_Graphic_Card_TO_Display();
-	
-//	osTimerStart(gimbalTimerId, 1);
-//  osTimerStart(chassisTimerId,10);
-	
   /* Infinite loop */
   for(;;)
   {   
 		key_scan();
-		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
-
-		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
   }
   /* USER CODE END StartDefaultTask */

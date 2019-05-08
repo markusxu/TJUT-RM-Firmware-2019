@@ -32,6 +32,8 @@
 #include "remotecontrol.h"
 #include <string.h>
 
+extern osTimerId chassisTimerId;
+extern osTimerId gimbalTimerId;
 
 /**
  * @brief task of display
