@@ -33,7 +33,7 @@
 #include "can.h"
 #include "pid.h"
 #include "tim.h"
-#include "keyscan.h"
+#include "key.h"
 #include "remotecontrol.h"
 #include "USER_DEFINITION.h"
 #include <math.h>

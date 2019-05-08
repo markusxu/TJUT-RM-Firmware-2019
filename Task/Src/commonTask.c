@@ -27,13 +27,14 @@
 #include "commonTask.h"
 #include "oled.h"
 #include "display.h"
-#include "keyscan.h"
+#include "key.h"
 #include "referee.h"
 #include "remotecontrol.h"
 #include <string.h>
 
 extern osTimerId chassisTimerId;
 extern osTimerId gimbalTimerId;
+uint8_t page;
 
 /**
  * @brief task of display
@@ -44,15 +45,46 @@ void display_Task(void const * argument)
 {
 	oled_clear(Pen_Clear);
 	oled_refresh_gram();
-
+	
 	for(;;)
 	{
-		if(bottom.countNUM == 1)display_refereeSystem();
-		if(bottom.countNUM == 2)display_moto6020();
-		if(bottom.countNUM == 3)oled_clear(Pen_Clear);
+		switch(bottom.countNUM)
+		{
+			case 1:
+			{
+				if(page != 1)
+				{
+					oled_clear(Pen_Clear);
+					page = 1;
+				}
+				display_refereeSystem();
+				break;
+			}
+				
+			case 2:
+			{
+				if(page != 2)
+				{
+					oled_clear(Pen_Clear);
+					page = 2;
+				}
+				display_moto6020();
+				break;
+			}
+			
+			case 3:
+			{
+				if(page != 3)
+				{
+					oled_clear(Pen_Clear);
+					page = 3;
+				}
+				display_rc();
+				break;
+			}
+		}
 		oled_refresh_gram();
 	}
-
 }
 
 /**

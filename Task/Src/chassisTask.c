@@ -28,6 +28,9 @@
 
 Move_State	ChassisMoveState = MOVE_NONE;
 
+extern rc_info_t rc;
+extern key_state_t *keyboard;
+
 Chassis_TypeDef Chassis1;
 float MAX_WHEEL_SPEED = 6000;
 double rcch[4];
@@ -144,7 +147,6 @@ void Chassis_Task(void const * argument)
 	
 	for(;;)
 	{
-		keyboard.value = rc.key;	
 		switch (SWstate.value)
 		{						
 			case KEY_OFF_UP:
@@ -172,17 +174,17 @@ void Chassis_Task(void const * argument)
 			
 			case KEY_HL_DN:
 			{
-				rcch[1] = keyboard.Posision.W*(-3000) + keyboard.Posision.S*(3000);
-				rcch[0] = keyboard.Posision.D*(-3000) + keyboard.Posision.A*(3000);
+				rcch[1] = keyboard->W*(-3000) + keyboard->S*(3000);
+				rcch[0] = keyboard->D*(-3000) + keyboard->A*(3000);
 				
-				if(keyboard.Posision.SHIFT || keyboard.Posision.CTRL)
+				if(keyboard->SHIFT || keyboard->CTRL)
 				{
-					if(keyboard.Posision.SHIFT)
+					if(keyboard->SHIFT)
 					{
 						rcch[1] *= 2;
 						rcch[0] *= 2;
 					}
-					else if(keyboard.Posision.CTRL)
+					else if(keyboard->CTRL)
 					{
 						rcch[1] *= 0.5;
 						rcch[0] *= 0.5;

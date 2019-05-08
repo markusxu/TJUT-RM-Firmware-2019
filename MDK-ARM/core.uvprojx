@@ -642,14 +642,14 @@
               <FilePath>..\Function\Src\display.c</FilePath>
             </File>
             <File>
-              <FileName>keyscan.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\keyscan.c</FilePath>
-            </File>
-            <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\Src\oled.c</FilePath>
+            </File>
+            <File>
+              <FileName>key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\key.c</FilePath>
             </File>
             <File>
               <FileName>pid.c</FileName>

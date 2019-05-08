@@ -1,17 +1,41 @@
-/**
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
- * @file       keyscan.c
- * @brief      
- * @note         
- * @Version    V2.0.0
- * @Date       Mar-09-2019      
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
+/****************************************************************************
+ *  Copyright (C) 2019 TJUT-RoboMaster.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
+/** @file key.c
+ *  @version 1.0
+ *  @date May 2019
+ *
+ *  @brief display different type of data in OLED
+ *
+ *  @copyright 2019 TJUT RoboMaster. All rights reserved.
+ *
  */
  
-#include "keyscan.h"
+#include "key.h"
+#include "adc.h"
+#include "tim.h"
+#include "oled.h"
+#include "remotecontrol.h"
+#include "USER_DEFINITION.h"
+#include <string.h>
 
-union KEY_Reg keyboard;
+//union KEY_Reg keyboard;
 union SW_Reg SWstate;
+extern rc_info_t rc;
+key_state_t *keyboard;
 
 Key_STATUS bottom;
 Key_STATUS key_X;
@@ -20,8 +44,10 @@ uint16_t kk;
 
 void key_scan(void)
 {
+	memcpy(keyboard, &rc.key, 2);
+	
 	switch_scan();
-	Key_GetStatus(&key_X, keyboard.Posision.X);
+	Key_GetStatus(&key_X, keyboard->X);
 	
 	kk = HAL_ADC_GetValue(&hadc1)/100;
 	Key_GetStatus(&bottom, (kk<35&&kk>30)?(1):(0));
@@ -60,7 +86,6 @@ void switch_scan(void)
 {
 	SWstate.sw_buff.L=rc.sw1;
 	SWstate.sw_buff.R=rc.sw2;
-	
 }
 
 void buttom_scan(void)

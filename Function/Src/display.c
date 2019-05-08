@@ -29,7 +29,7 @@
 #include "bsp_imu.h"
 #include "bsp_can.h"
 #include "oled.h"
-#include "keyscan.h"
+#include "key.h"
 #include "referee_info.h"
 #include "remotecontrol.h"
 #include "chassisTask.h"
@@ -47,12 +47,14 @@ void display_rc(void)
 	oled_printf(0,10,"CH2:%4d",rc.ch2);
 	oled_printf(1,1,"CH3:%4d ",rc.ch3);
 	oled_printf(1,10,"CH4:%4d",rc.ch4);
+	oled_printf(4,10,"3/3",rc.ch4);
 } 
 
 void display_moto6020(void)
 {
-	oled_printf(3,1,"TEMP_PIT: %2d",moto_pit.hall);
-	oled_printf(4,1,"TEMP_YAW: %2d",moto_yaw.hall);
+	oled_printf(0,1,"TEMP_PIT: %2d",moto_pit.hall);
+	oled_printf(1,1,"TEMP_YAW: %2d",moto_yaw.hall);
+	oled_printf(4,10,"2/3",rc.ch4);
 } 
 
 void display_refereeSystem(void)
@@ -61,4 +63,5 @@ void display_refereeSystem(void)
 	oled_printf(1,1,"Voltage: %02.3f V",((float)re_data.power_heat_data.chassis_volt/1000));
 	oled_printf(2,1,"Current:  %02.3f A",((float)re_data.power_heat_data.chassis_current/1000));
 	oled_printf(3,1,"Power  : %04.1f W           ",re_data.power_heat_data.chassis_power);
+	oled_printf(4,10,"1/3",rc.ch4);
 }

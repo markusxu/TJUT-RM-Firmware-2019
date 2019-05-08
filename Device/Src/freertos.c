@@ -48,7 +48,7 @@
 #include "RemoteControl.h"
 #include "chassisTask.h"
 #include "gimbalTask.h"
-#include "keyscan.h"
+#include "key.h"
 #include "commonTask.h"
 
 /* USER CODE END Includes */

@@ -33,6 +33,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
+#include "adc.h"
 #include "can.h"
 #include "dma.h"
 #include "spi.h"
@@ -44,7 +45,7 @@
 #include "oled.h"
 #include "bsp_uart.h"
 #include "bsp_imu.h"
-#include "keyscan.h"
+#include "key.h"
 
 /* USER CODE END Includes */
 

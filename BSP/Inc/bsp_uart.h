@@ -44,7 +44,7 @@ typedef __packed struct
 /** 
   * @brief  remote control information
   */
-typedef __packed struct
+typedef struct
 {
   /* rocker channel information */
   int16_t ch1;
