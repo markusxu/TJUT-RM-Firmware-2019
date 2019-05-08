@@ -1,16 +1,41 @@
-/**
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
- * @file       gimbal.c
- * @brief      
- * @note         
- * @Version    V1.0.0
- * @Date       Mar-09-2019      
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
+/****************************************************************************
+ *  Copyright (C) 2019 TJUT-RoboMaster.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of?
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.? See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
+/** @file gimbalTask.c
+ *  @version 1.0
+ *  @date May 2019
+ *
+ *  @brief communicate with computer task
+ *
+ *  @copyright 2019 TJUT RoboMaster. All rights reserved.
+ *
  */
  
-#include "gimbal.h"
+#include "gimbalTask.h"
+#include "bsp_can.h"
+#include "can.h"
+#include "pid.h"
+#include "tim.h"
+#include "keyscan.h"
+#include "remotecontrol.h"
+#include "USER_DEFINITION.h"
+#include <math.h>
 
-int16_t ddangle;
+int16_t mouse_move_angle;
+uint8_t mouse_click_shoot;
 
 void GimbalPIDInit(void){
 
@@ -85,9 +110,54 @@ void Set_GM6020_Current(int16_t target_spd){
 
 void Gimbal_Task(void const * argument)
 {
-	GimTask_Init();
+	GimbalInit();
 	for(;;)
 	{
-		GimTask_Loop();
+		Angle_transimit();	
+		switch (SWstate.value)
+		{
+			case KEY_OFF_UP:
+				Set_Gimbal_Current(0, 450, 0);
+				break;
+			case KEY_CL_UP:
+			case KEY_HL_UP:
+				Set_Gimbal_Current(0, 0, 0);
+				TIM2->CCR1 = 1000;
+				LASER_OFF;
+				break;
+			
+			case KEY_OFF_MD:
+			case KEY_CL_MD:
+			case KEY_HL_MD:
+				Set_Gimbal_Current(rc.sw, -rc.ch4, 0);
+				TIM2->CCR1 = 1000;
+				LASER_OFF;
+				break;
+			
+			case KEY_OFF_DN:
+			case KEY_CL_DN:
+				TIM2->CCR1 = 2000;
+				Set_Gimbal_Current(rc.sw, -rc.ch4, 1200);
+				LASER_ON;
+				break;
+			
+			case KEY_HL_DN:
+			{
+				mouse_move_angle = mouse_move_angle + rc.mouse.y;
+				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
+				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
+				
+				(rc.mouse.press_r)?(TIM2->CCR1 = 1300):(TIM2->CCR1 = 1000);
+				(rc.mouse.press_r && rc.mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);
+				
+				Set_Gimbal_Current(rc.sw, mouse_move_angle, mouse_click_shoot*100);
+				
+				if(key_X.bit){LASER_ON}else LASER_OFF;
+				break;
+			}
+			
+			default:
+				break;
+		}
 	}
 }

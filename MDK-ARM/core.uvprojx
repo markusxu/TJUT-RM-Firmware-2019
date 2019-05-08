@@ -637,16 +637,6 @@
           <GroupName>Application/Function</GroupName>
           <Files>
             <File>
-              <FileName>chassis.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\chassis.c</FilePath>
-            </File>
-            <File>
-              <FileName>gimbal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\gimbal.c</FilePath>
-            </File>
-            <File>
               <FileName>display.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\Src\display.c</FilePath>
@@ -677,34 +667,19 @@
           <GroupName>Application/Task</GroupName>
           <Files>
             <File>
+              <FileName>chassisTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Src\chassisTask.c</FilePath>
+            </File>
+            <File>
+              <FileName>gimbalTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Src\gimbalTask.c</FilePath>
+            </File>
+            <File>
               <FileName>commonTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\Src\commonTask.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Application/USER</GroupName>
-          <Files>
-            <File>
-              <FileName>USER_chassis.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\Src\USER_chassis.c</FilePath>
-            </File>
-            <File>
-              <FileName>USER_gimbal.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\Src\USER_gimbal.c</FilePath>
-            </File>
-            <File>
-              <FileName>USER_FreeRTOS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USER\Src\USER_FreeRTOS.c</FilePath>
-            </File>
-            <File>
-              <FileName>USER_DEFINITION.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USER\Inc\USER_DEFINITION.h</FilePath>
             </File>
           </Files>
         </Group>

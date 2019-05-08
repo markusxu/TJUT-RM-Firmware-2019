@@ -1,19 +1,37 @@
-/**
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
- * @file       chassis.c
- * @brief      
- * @note         
- * @Version    V1.0.0
- * @Date       Mar-09-2019      
- ***************************************(C) COPYRIGHT 2019 TJUT***************************************
+/****************************************************************************
+ *  Copyright (C) 2019 TJUT-RoboMaster.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of?
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.? See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
+/** @file chassisTask.c
+ *  @version 1.0
+ *  @date May 2019
+ *
+ *  @brief communicate with computer task
+ *
+ *  @copyright 2019 TJUT RoboMaster. All rights reserved.
+ *
  */
 
-#include "chassis.h"
+#include "chassisTask.h"
 
 Move_State	ChassisMoveState = MOVE_NONE;
 
 Chassis_TypeDef Chassis1;
-
+float MAX_WHEEL_SPEED = 6000;
+double rcch[4];
+int16_t Speed[4];
 
 void Mecanum_calc(float vx, float vy, float omega, const int each_max_spd, int16_t speed[]){
 	int16_t buf[4];
@@ -122,10 +140,63 @@ void Set_M620_Current(int16_t set_spd[]){
 
 void Chassis_Task(void const * argument)
 {
-	ChsTask_Init();
+	ChassisPIDInit();
+	
 	for(;;)
 	{
-		ChsTask_Loop();
+		keyboard.value = rc.key;	
+		switch (SWstate.value)
+		{						
+			case KEY_OFF_UP:
+			case KEY_OFF_MD:
+			case KEY_OFF_DN:
+				break;
+			
+			case KEY_CL_UP:
+			case KEY_CL_MD:
+			case KEY_CL_DN:
+				for(int i=0; i<4;i++){
+					Speed[i]=0;
+				}
+				Set_M620_Current(Speed);
+				break;
+			
+			case KEY_HL_UP:
+			case KEY_HL_MD:
+				rcch[0] = -rc.ch1*10;
+				rcch[1] = -rc.ch2*10;
+				rcch[2] = -rc.ch3*10;
+				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
+				Set_M620_Current(Speed);
+				break;
+			
+			case KEY_HL_DN:
+			{
+				rcch[1] = keyboard.Posision.W*(-3000) + keyboard.Posision.S*(3000);
+				rcch[0] = keyboard.Posision.D*(-3000) + keyboard.Posision.A*(3000);
+				
+				if(keyboard.Posision.SHIFT || keyboard.Posision.CTRL)
+				{
+					if(keyboard.Posision.SHIFT)
+					{
+						rcch[1] *= 2;
+						rcch[0] *= 2;
+					}
+					else if(keyboard.Posision.CTRL)
+					{
+						rcch[1] *= 0.5;
+						rcch[0] *= 0.5;
+					}
+				}
+				rcch[2] = -rc.mouse.x*100;
+				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
+				Set_M620_Current(Speed);
+				break;
+			}
+			
+			default:
+				break;
+		}
 	}
 }
 

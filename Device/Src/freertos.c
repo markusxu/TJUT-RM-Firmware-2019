@@ -46,8 +46,8 @@
 
 #include "display.h"
 #include "RemoteControl.h"
-#include "chassis.h"
-#include "gimbal.h"
+#include "chassisTask.h"
+#include "gimbalTask.h"
 #include "keyscan.h"
 #include "commonTask.h"
 

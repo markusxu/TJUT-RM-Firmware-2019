@@ -32,7 +32,7 @@
 #include "keyscan.h"
 #include "referee_info.h"
 #include "remotecontrol.h"
-#include "chassis.h"
+#include "chassisTask.h"
 #include <string.h>
 
 extern rc_info_t rc;
