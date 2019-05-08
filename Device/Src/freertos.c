@@ -64,9 +64,10 @@ osThreadId gimbalTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
-osTimerId chassisTimerId;
-osTimerId gimbalTimerId;
-
+#ifdef USE_TIMER
+	osTimerId chassisTimerId;
+	osTimerId gimbalTimerId;
+#endif
 /* USER CODE END Variables */
 
 /* Function prototypes -------------------------------------------------------*/
@@ -101,12 +102,13 @@ void MX_FREERTOS_Init(void) {
   /* start timers, add new ones, ... */
 	
 	/* real time control task */
-  osTimerDef(chassisTimer, Chassis_Task);
-  chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
-    
-  osTimerDef(gimbalTimer, Gimbal_Task);
-  gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
-		
+	#ifdef USE_TIMER
+		osTimerDef(chassisTimer, Chassis_Task);
+		chassisTimerId = osTimerCreate(osTimer(chassisTimer), osTimerPeriodic, NULL);
+			
+		osTimerDef(gimbalTimer, Gimbal_Task);
+		gimbalTimerId = osTimerCreate(osTimer(gimbalTimer), osTimerPeriodic, NULL);
+	#endif
   /* USER CODE END RTOS_TIMERS */
 
   /* Create the thread(s) */
@@ -123,11 +125,11 @@ void MX_FREERTOS_Init(void) {
 	osThreadDef(gimbalTask, Gimbal_Task, osPriorityNormal, 0, 128);
   gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 	
-//	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
-//  displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
-//	
-//	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 512);
-//  unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
+	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
+  displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);
+	
+	osThreadDef(unpackTask, unpack_Task, osPriorityNormal, 0, 512);
+  unpackTaskHandle = osThreadCreate(osThread(unpackTask), NULL);
 	
   /* USER CODE END RTOS_THREADS */
 
@@ -153,10 +155,7 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {   
 		key_scan();
-		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_R_GPIO_Port, LED_R_Pin, GPIO_PIN_SET);
-
-		/*Configure GPIO pin Output Level */
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
   }
   /* USER CODE END StartDefaultTask */

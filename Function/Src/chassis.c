@@ -120,16 +120,13 @@ void Set_M620_Current(int16_t set_spd[]){
 
 
 
-void Chassis_Task(void const *argu){
-	
+void Chassis_Task(void const * argument)
+{
 	ChsTask_Init();
-	
-	for(;;){
-		
+	for(;;)
+	{
 		ChsTask_Loop();
-		
 	}
-
 }
 
 
