@@ -30,12 +30,13 @@
 #include "oled.h"
 #include "remotecontrol.h"
 #include "USER_DEFINITION.h"
+#include <stdlib.h>
 #include <string.h>
 
 //union KEY_Reg keyboard;
 union SW_Reg SWstate;
-extern rc_info_t rc;
-key_state_t *keyboard;
+extern rc_info_t *rc;
+key_state_t *keyboard ;
 
 Key_STATUS bottom;
 Key_STATUS key_X;
@@ -44,7 +45,7 @@ uint16_t kk;
 
 void key_scan(void)
 {
-	memcpy(keyboard, &rc.key, 2);
+	memcpy(keyboard, &rc->key, 2);
 	
 	switch_scan();
 	Key_GetStatus(&key_X, keyboard->X);
@@ -63,6 +64,8 @@ void IOInit(void){
 	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_3, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_5, GPIO_PIN_SET);
+	
+	keyboard = (key_state_t *)malloc(sizeof(key_state_t));
 	
 	Key_GetStatusInit(&bottom, RISE_TRIGGER, COUNT_UP, ENABLE, 1, 3);
 	Key_GetStatusInit(&key_X,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
@@ -84,8 +87,8 @@ void IOInit(void){
 
 void switch_scan(void)
 {
-	SWstate.sw_buff.L=rc.sw1;
-	SWstate.sw_buff.R=rc.sw2;
+	SWstate.sw_buff.L=rc->sw1;
+	SWstate.sw_buff.R=rc->sw2;
 }
 
 void buttom_scan(void)
