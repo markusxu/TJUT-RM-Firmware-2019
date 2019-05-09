@@ -41,6 +41,13 @@ void refereeDataUnpack(void)
 		case EXT_POWER_HEAT_DATA:
 		{
 			memcpy(&re_data.power_heat_data, &re->data, data_length);
+			break;
+		}
+		
+		case EXT_SHOOT_DATA:
+		{
+			memcpy(&re_data.shoot_data, &re->data, data_length);
+			break;
 		}
 		
 		default:

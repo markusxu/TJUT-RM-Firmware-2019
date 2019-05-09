@@ -59,9 +59,27 @@ void display_moto6020(void)
 
 void display_refereeSystem(void)
 {
-	oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
-	oled_printf(1,1,"Voltage: %02.3f V",((float)re_data.power_heat_data.chassis_volt/1000));
-	oled_printf(2,1,"Current:  %02.3f A",((float)re_data.power_heat_data.chassis_current/1000));
-	oled_printf(3,1,"Power  : %04.1f W           ",re_data.power_heat_data.chassis_power);
-	oled_printf(4,10,"1/3",rc.ch4);
+	switch(EXT_SHOOT_DATA/*re->cmd_id*/)
+	{
+		case EXT_POWER_HEAT_DATA:
+			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
+			oled_printf(1,1,"Voltage: %02.3f V",((float)re_data.power_heat_data.chassis_volt/1000));
+			oled_printf(2,1,"Current:  %02.3f A",((float)re_data.power_heat_data.chassis_current/1000));
+			oled_printf(3,1,"Power  : %04.1f W           ",re_data.power_heat_data.chassis_power);
+			oled_printf(4,10,"1/3",rc.ch4);
+		break;
+		
+		case EXT_SHOOT_DATA:
+			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
+			oled_printf(1,1,"Bullet Type:  %d  ", (uint16_t)re_data.shoot_data.bullet_type);
+			oled_printf(2,1,"Bullet Freq:  %d  ", (uint16_t)re_data.shoot_data.bullet_freq);
+			oled_printf(3,1,"Bullet Speed: %.1f",re_data.shoot_data.bullet_speed);
+			oled_printf(4,10,"1/3",rc.ch4);
+		break;
+		
+		default:
+			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
+			oled_printf(4,10,"1/3",rc.ch4);
+		break;
+	}
 }

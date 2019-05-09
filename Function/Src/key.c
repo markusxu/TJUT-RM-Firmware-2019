@@ -71,13 +71,13 @@ void IOInit(void){
 	oled_LOGO();
 	oled_refresh_gram();
 	
-	for(;;){
-		switch_scan();
-		if(SWstate.value == KEY_OFF_UP){
-			break;
-		}
-		TIM12->CCR1 = 250;
-	}
+//	for(;;){
+//		switch_scan();
+//		if(SWstate.value == KEY_OFF_UP){
+//			break;
+//		}
+//		TIM12->CCR1 = 250;
+//	}
 			
 	TIM12->CCR1 = 0;
 }
