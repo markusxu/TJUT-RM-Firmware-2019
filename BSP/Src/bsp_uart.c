@@ -1,11 +1,27 @@
-/**
- ***************************************(C) COPYRIGHT 2018 DJI***************************************
- * @file       bsp_uart.c
- * @brief      this file contains rc data receive and processing function
- * @note       
- * @Version    V1.0.0
- * @Date       Jan-30-2018
- ***************************************(C) COPYRIGHT 2018 DJI***************************************
+/****************************************************************************
+ *  Copyright (C) 2018 RoboMaster.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
+/** @file      bsp_usrt.c
+ *  @version   1.0.0
+ *  @date      Jan-30-2018
+ *
+ *  @brief     This file contains rc data receive and processing function
+ *
+ *  @copyright 2018 RoboMaster. All rights reserved.
+ *
  */
                                                                                                               
 #include "string.h"
@@ -13,13 +29,17 @@
 #include "bsp_uart.h"
 #include "usart.h"
 #include "mxconstants.h"
+#include <stdlib.h>
 #include <string.h>
 
 uint8_t dbus_buf[DBUS_BUFLEN];
-rc_info_t rc;
+rc_info_t *rc;
 
 uint8_t re_buf[RE_BUFLEN];
 re_info_t *re = (re_info_t*)re_buf;
+
+uint8_t pc_buf[PC_BUFLEN];
+pc_info_t *pc = (pc_info_t*)pc_buf;
 
 /**
   * @brief      enable global uart it and do not use DMA transfer done it
@@ -28,7 +48,7 @@ re_info_t *re = (re_info_t*)re_buf;
   * @param[in]  Size:  buff size
   * @retval     set success or fail
   */
-static int uart_receive_dma_no_it(UART_HandleTypeDef* huart, uint8_t* pData, uint32_t Size)
+static int USRT_DMA_Cfg(UART_HandleTypeDef* huart, uint8_t* pData, uint32_t Size)
 {
   uint32_t tmp1 = 0;
 
@@ -82,7 +102,7 @@ uint16_t dma_current_data_counter(DMA_Stream_TypeDef *dma_stream)
   * @param[in]   buff: the buff which saved raw rc data
   * @retval 
   */
-void rc_callback_handler(rc_info_t *rc, uint8_t *buff)
+void RC_Callback_Handler(rc_info_t *rc, uint8_t *buff)
 {
   rc->ch1 = (buff[0] | buff[1] << 8) & 0x07FF;
   rc->ch1 -= 1024;
@@ -122,35 +142,35 @@ void rc_callback_handler(rc_info_t *rc, uint8_t *buff)
   * @param[in]  huart: uart IRQHandler id
   * @retval  
   */
-static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
+static void USRT_Rx_IDLE_Callback(UART_HandleTypeDef* huart)
 {
-	/* clear idle it flag avoid idle interrupt all the time */
+	/* Clear IDLE it flag avoid IDLE interrupt all the time */
 	__HAL_UART_CLEAR_IDLEFLAG(huart);
 
-	/* handle received data in idle interrupt */
+	/* Handle received data in IDLE interrupt */
 	if (huart == &DBUS_HUART)
 	{
-		/* clear DMA transfer complete flag */
+		/* Clear DMA transfer complete flag */
 		__HAL_DMA_DISABLE(huart->hdmarx);
 
-		/* handle dbus data dbus_buf from DMA */
+		/* Handle dbus data dbus_buf from DMA */
 		if ((DBUS_MAX_LEN - dma_current_data_counter(huart->hdmarx->Instance)) == DBUS_BUFLEN)
 		{
-			rc_callback_handler(&rc, dbus_buf);	
+			RC_Callback_Handler(rc, dbus_buf);	
 		}
 		
-		/* restart dma transmission */
+		/* Restart dma transmission */
 		__HAL_DMA_SET_COUNTER(huart->hdmarx, DBUS_MAX_LEN);
 		__HAL_DMA_ENABLE(huart->hdmarx);
 	}
 	
-	/* handle received data in idle interrupt */
+	/* Handle received data in idle interrupt */
 	if (huart == &RE_HUART)
 	{
-		/* clear DMA transfer complete flag */
+		/* Clear DMA transfer complete flag */
 		__HAL_DMA_DISABLE(huart->hdmarx);
 
-		/* handle dbus data dbus_buf from DMA */
+		/* Handle referee system data re_buf from DMA */
 		if (re_buf[0] == 0xA5)
 		{
 			memcpy(re, re_buf, 126);
@@ -158,6 +178,23 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		
 		/* restart dma transmission */
 		__HAL_DMA_SET_COUNTER(huart->hdmarx, RE_MAX_LEN);
+		__HAL_DMA_ENABLE(huart->hdmarx);
+	}
+	
+	/* Handle received data in IDLE interrupt */
+	if (huart == &PC_HUART)
+	{
+		/* Clear DMA transfer complete flag */
+		__HAL_DMA_DISABLE(huart->hdmarx);
+
+		/* Handle PC data pc_buf from DMA */
+		if (re_buf[0] == 0xA5)
+		{
+			memcpy(re, re_buf, 126);
+		}
+		
+		/* Restart DMA transmission */
+		__HAL_DMA_SET_COUNTER(huart->hdmarx, PC_MAX_LEN);
 		__HAL_DMA_ENABLE(huart->hdmarx);
 	}
 }
@@ -172,34 +209,51 @@ void uart_receive_handler(UART_HandleTypeDef *huart)
 	if (__HAL_UART_GET_FLAG(huart, UART_FLAG_IDLE) && 
 			__HAL_UART_GET_IT_SOURCE(huart, UART_IT_IDLE))
 	{
-		uart_rx_idle_callback(huart);
+		USRT_Rx_IDLE_Callback(huart);
 	}
 }
 
 /**
-  * @brief   initialize dbus uart device 
+  * @brief   Initialize dbus uart device 
   * @param   NONE
   * @retval  
   */
 void Dbus_USRT_Init(void)
 {
-	/* open uart idle it */
+	/*  */
+	rc = (rc_info_t *)malloc(sizeof(rc_info_t));
+	
+	/* Open USRT IDLE IT */
 	__HAL_UART_CLEAR_IDLEFLAG(&DBUS_HUART);
 	__HAL_UART_ENABLE_IT(&DBUS_HUART, UART_IT_IDLE);
 
-	uart_receive_dma_no_it(&DBUS_HUART, dbus_buf, DBUS_MAX_LEN);
+	USRT_DMA_Cfg(&DBUS_HUART, dbus_buf, DBUS_MAX_LEN);
 }
 
 /**
-  * @brief   initialize referee system uart device 
+  * @brief   Initialize referee system uart device 
   * @param   NONE
   * @retval  
   */
 void Referee_USRT_Init(void)
 {
-	/* open uart idle it */
+	/* Open USRT IDLE IT */
 	__HAL_UART_CLEAR_IDLEFLAG(&RE_HUART);
 	__HAL_UART_ENABLE_IT(&RE_HUART, UART_IT_IDLE);
 
-	uart_receive_dma_no_it(&RE_HUART, re_buf, RE_MAX_LEN);
+	USRT_DMA_Cfg(&RE_HUART, re_buf, RE_MAX_LEN);
+}
+
+/**
+  * @brief   Initialize PC uart device 
+  * @param   NONE
+  * @retval  
+  */
+void PC_USRT_Init(void)
+{
+	/* Open USRT IDLE IT */
+	__HAL_UART_CLEAR_IDLEFLAG(&PC_HUART);
+	__HAL_UART_ENABLE_IT(&PC_HUART, UART_IT_IDLE);
+
+	USRT_DMA_Cfg(&PC_HUART, pc_buf, PC_MAX_LEN);
 }

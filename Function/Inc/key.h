@@ -121,6 +121,11 @@ typedef struct
 	
 }Key_STATUS; 
 
+typedef struct {
+int a;
+int b;
+}STR3;
+
 void key_scan(void);
 void IOInit(void);
 void switch_scan(void);
