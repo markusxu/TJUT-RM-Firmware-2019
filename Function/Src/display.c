@@ -14,11 +14,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file display.c
- *  @version 1.0
- *  @date May 2019
+/** @file      display.c
+ *  @version   1.0
+ *  @date      May 2019
  *
- *  @brief display different type of data in OLED
+ *  @brief     display different type of data in OLED
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
