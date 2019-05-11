@@ -59,7 +59,7 @@ void display_moto6020(void)
 
 void display_refereeSystem(void)
 {
-	switch(EXT_SHOOT_DATA/*re->cmd_id*/)
+	switch(re->cmd_id)
 	{
 		case EXT_POWER_HEAT_DATA:
 			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
