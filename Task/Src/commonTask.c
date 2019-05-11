@@ -25,6 +25,8 @@
  */
 
 #include "commonTask.h"
+#include "usart.h"
+
 #include "oled.h"
 #include "display.h"
 #include "key.h"
@@ -34,7 +36,22 @@
 
 extern osTimerId chassisTimerId;
 extern osTimerId gimbalTimerId;
+extern key_state_t *keyboard;
 uint8_t page;
+
+/**
+ * @brief task of unpacking referee system data
+ * 
+ * @param argument 
+ */
+void unpack_Task(void const * argument)
+{
+	for(;;)
+	{
+		refereeDataUnpack();
+//		if(keyboard->R) HAL_UART_Transmit(&huart3, );
+	}
+}
 
 /**
  * @brief task of display
@@ -87,15 +104,4 @@ void display_Task(void const * argument)
 	}
 }
 
-/**
- * @brief task of unpacking referee system data
- * 
- * @param argument 
- */
-void unpack_Task(void const * argument)
-{
-	for(;;)
-	{
-		refereeDataUnpack();
-	}
-}
+

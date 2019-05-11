@@ -27,20 +27,30 @@
 #include "referee.h"
 #include "referee_info.h"
 #include "bsp_uart.h"
+#include "CRC.h"
 #include <string.h>
 
 extern re_info_t *re;
 referee_data_t re_data;
 
+uint16_t crc_result;
+
 void refereeDataUnpack(void)
 {
 	uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+	
 	
 	switch(re->cmd_id)
 	{
 		case EXT_POWER_HEAT_DATA:
 		{
 			memcpy(&re_data.power_heat_data, &re->data, data_length);
+			break;
+		}
+		
+		case EXT_ROBO_STATE:
+		{
+			memcpy(&re_data.robot_state, &re->data, data_length);
 			break;
 		}
 		

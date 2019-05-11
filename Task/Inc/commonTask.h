@@ -24,8 +24,10 @@
  *
  */
  
-#ifndef __COMMONTASK__H
-#define __COMMONTASK__H
+#ifndef __COMMONTASK_H__
+#define __COMMONTASK_H__
+
+#include "stm32f4xx_hal.h"
 
 void display_Task(void const * argument);
 void unpack_Task(void const * argument);
