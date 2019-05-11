@@ -38,7 +38,7 @@
 extern rc_info_t rc;
 extern uint8_t re_buf[];
 extern re_info_t *re;
-extern referee_data_t re_data;
+extern referee_data_t *re_data;
 
 
 void display_rc(void)
@@ -63,17 +63,17 @@ void display_refereeSystem(void)
 	{
 		case EXT_POWER_HEAT_DATA:
 			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
-			oled_printf(1,1,"Voltage: %02.3f V",((float)re_data.power_heat_data.chassis_volt/1000));
-			oled_printf(2,1,"Current:  %02.3f A",((float)re_data.power_heat_data.chassis_current/1000));
-			oled_printf(3,1,"Power  : %04.1f W           ",re_data.power_heat_data.chassis_power);
+			oled_printf(1,1,"Voltage: %02.3f V",((float)re_data->power_heat_data->chassis_volt/1000));
+			oled_printf(2,1,"Current:  %02.3f A",((float)re_data->power_heat_data->chassis_current/1000));
+			oled_printf(3,1,"Power  : %04.1f W           ",re_data->power_heat_data->chassis_power);
 			oled_printf(4,10,"1/3",rc.ch4);
 		break;
 		
 		case EXT_SHOOT_DATA:
 			oled_printf(0,1,"CMD_ID :  %04X",re->cmd_id);
-			oled_printf(1,1,"Bullet Type:  %d  ", (uint16_t)re_data.shoot_data.bullet_type);
-			oled_printf(2,1,"Bullet Freq:  %d  ", (uint16_t)re_data.shoot_data.bullet_freq);
-			oled_printf(3,1,"Bullet Speed: %.1f",re_data.shoot_data.bullet_speed);
+			oled_printf(1,1,"Bullet Type:  %d  ", (uint16_t)re_data->shoot_data->bullet_type);
+			oled_printf(2,1,"Bullet Freq:  %d  ", (uint16_t)re_data->shoot_data->bullet_freq);
+			oled_printf(3,1,"Bullet Speed: %.1f",re_data->shoot_data->bullet_speed);
 			oled_printf(4,10,"1/3",rc.ch4);
 		break;
 		

@@ -12,6 +12,7 @@
 #include "stdlib.h"
 #include "bsp_uart.h"
 #include "usart.h"
+#include "CRC.h"
 #include "mxconstants.h"
 #include <string.h>
 
@@ -153,7 +154,13 @@ static void uart_rx_idle_callback(UART_HandleTypeDef* huart)
 		/* handle dbus data dbus_buf from DMA */
 		if (re_buf[0] == 0xA5)
 		{
-			memcpy(re, re_buf, 126);
+			if(Verify_CRC8_Check_Sum(re_buf, 5))
+			{
+				if(Verify_CRC16_Check_Sum(re_buf, (re_buf[5]|re_buf[6]<<8)+9))
+				{
+					memcpy(re, re_buf, 126);
+				}
+			}
 		}
 		
 		/* restart dma transmission */

@@ -49,7 +49,7 @@ void unpack_Task(void const * argument)
 	for(;;)
 	{
 		refereeDataUnpack();
-//		if(keyboard->R) HAL_UART_Transmit(&huart3, );
+		
 	}
 }
 
