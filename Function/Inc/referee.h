@@ -28,5 +28,6 @@
 #define __REFEREE__H
 
 void refereeDataUnpack(void);
+void refereeDataPack(void);
 
 #endif
