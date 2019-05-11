@@ -34,12 +34,9 @@
 #define GIMBAL_PIT_KI  3.7f
 #define GIMBAL_PIT_KD  170.8f
 
-<<<<<<< HEAD
+
 #ifdef IF_NO1
-#define YAW_CORRECTING_ANGLE 0
-=======
 #define YAW_CORRECTING_ANGLE 6835
->>>>>>> refereeSystem
 #define PIT_CORRECTING_ANGLE 2730
 #else
 #define YAW_CORRECTING_ANGLE 6835

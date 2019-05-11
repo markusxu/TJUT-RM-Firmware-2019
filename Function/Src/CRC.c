@@ -40,11 +40,13 @@ unsigned char Get_CRC8_Check_Sum(unsigned char *pchMessage,unsigned int dwLength
 	return(ucCRC8);  
 }
 
-/*  
-** Descriptions: CRC8 Verify function  
-** Input: Data to Verify,Stream length = Data + checksum  
-** Output: True or False (CRC Verify Result)  
-*/  
+/**
+ * @brief CRC8 Verify function
+ * 
+ * @param pchMessage Data to Verify
+ * @param dwLength Stream length = Data + checksum
+ * @return unsigned int True or False (CRC Verify Result)
+ */
 unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)  
 {  
 	unsigned char ucExpected = 0; 
@@ -54,11 +56,12 @@ unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLen
 	return ( ucExpected == pchMessage[dwLength-1] );  
 } 
 
-/*  
-** Descriptions: Append CRC8 to the end of data  
-** Input: Data to CRC and append,Stream length = Data + checksum  
-** Output: True or False (CRC Verify Result)  
-*/  
+/**
+ * @brief Append CRC8 to the end of data
+ * 
+ * @param pchMessage Data to CRC and append
+ * @param dwLength Stream length = Data + checksum
+ */
 void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength) 
 {  
 	unsigned char ucCRC = 0;  
@@ -67,11 +70,14 @@ void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)
 	pchMessage[dwLength-1] = ucCRC;  
 }
 
-/*  
-** Descriptions: CRC16 checksum function  
-** Input: Data to check,Stream length, initialized checksum  
-** Output: CRC checksum  
-*/  
+/**
+ * @brief CRC16 checksum function
+ * 
+ * @param pchMessage Data to check
+ * @param dwLength Stream length
+ * @param wCRC Initialized checksum
+ * @return unsigned short int CRC checksum
+ */
 unsigned short int Get_CRC16_Check_Sum(unsigned char *pchMessage,unsigned int dwLength,unsigned short int wCRC)  
 {  
 	unsigned char chData;  
@@ -84,11 +90,13 @@ unsigned short int Get_CRC16_Check_Sum(unsigned char *pchMessage,unsigned int dw
 	return wCRC;  
 } 
 
-/*  
-** Descriptions: CRC16 Verify function  
-** Input: Data to Verify,Stream length = Data + checksum  
-** Output: True or False (CRC Verify Result)  
-*/  
+/**
+ * @brief CRC16 Verify function
+ * 
+ * @param pchMessage Data to Verify
+ * @param dwLength Stream length = Data + checksum
+ * @return unsigned int True or False (CRC Verify Result)
+ */
 unsigned int Verify_CRC16_Check_Sum(unsigned char *pchMessage, unsigned int dwLength)  
 {  
 	unsigned short int wExpected = 0;  
@@ -100,11 +108,12 @@ unsigned int Verify_CRC16_Check_Sum(unsigned char *pchMessage, unsigned int dwLe
 	return ((wExpected & 0xff) == pchMessage[dwLength - 2] && ((wExpected >> 8) & 0xff) == pchMessage[dwLength - 1]);  
 }
 
-/*  
-** Descriptions: append CRC16 to the end of data  
-** Input: Data to CRC and append,Stream length = Data + checksum  
-** Output: True or False (CRC Verify Result)  
-*/  
+/**
+ * @brief Append CRC16 to the end of data
+ * 
+ * @param pchMessage Data to CRC and append
+ * @param dwLength Stream length = Data + checksum
+ */
 void Append_CRC16_Check_Sum(unsigned char * pchMessage,unsigned int dwLength)  
 {  
 	unsigned short int wCRC = 0;  
