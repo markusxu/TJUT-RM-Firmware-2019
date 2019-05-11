@@ -661,6 +661,11 @@
               <FileType>1</FileType>
               <FilePath>..\Function\Src\referee.c</FilePath>
             </File>
+            <File>
+              <FileName>CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\CRC.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

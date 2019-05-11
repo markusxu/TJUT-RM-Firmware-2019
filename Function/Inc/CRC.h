@@ -14,53 +14,35 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file referee.c
- *  @version 1.0
- *  @date May 2019
+/** @file      CRC.h
+ *  @version   1.0
+ *  @date      May 2019
  *
- *  @brief unpacking the data from referee system
+ *  @brief     communicate with computer task
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
+ 
+#ifndef __CRC_H__
+#define __CRC_H__
 
-#include "referee.h"
-#include "referee_info.h"
-#include "bsp_uart.h"
-#include "CRC.h"
-#include <string.h>
+#include "stm32f4xx_hal.h"
 
-extern re_info_t *re;
-referee_data_t re_data;
-
-uint16_t crc_result;
-
-void refereeDataUnpack(void)
+typedef enum 
 {
-	uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
-	
-	
-	switch(re->cmd_id)
-	{
-		case EXT_POWER_HEAT_DATA:
-		{
-			memcpy(&re_data.power_heat_data, &re->data, data_length);
-			break;
-		}
-		
-		case EXT_ROBO_STATE:
-		{
-			memcpy(&re_data.robot_state, &re->data, data_length);
-			break;
-		}
-		
-		case EXT_SHOOT_DATA:
-		{
-			memcpy(&re_data.shoot_data, &re->data, data_length);
-			break;
-		}
-		
-		default:
-			break;
-	}
-}
+  CRC_FALSE    = 0x00U, 
+  CRC_TURE     = 0x01U,
+  CRC_ERROR    = 0x02U,
+  CRE_OK       = 0x03U
+} CRC_StatusTypeDef;
+
+unsigned char Get_CRC8_Check_Sum(unsigned char *pchMessage,unsigned int dwLength,unsigned char ucCRC8);
+unsigned int Verify_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
+void Append_CRC8_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
+
+unsigned short int Get_CRC16_Check_Sum(unsigned char *pchMessage,unsigned int dwLength,unsigned short int wCRC);
+unsigned int Verify_CRC16_Check_Sum(unsigned char *pchMessage, unsigned int dwLength);
+void Append_CRC16_Check_Sum(unsigned char * pchMessage,unsigned int dwLength);
+
+#endif
