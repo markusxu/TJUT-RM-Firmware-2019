@@ -31,7 +31,9 @@
 #include "display.h"
 #include "key.h"
 #include "referee.h"
+#include "referee_info.h"
 #include "remotecontrol.h"
+#include <stdlib.h>
 #include <string.h>
 
 extern osTimerId chassisTimerId;

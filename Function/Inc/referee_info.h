@@ -212,11 +212,11 @@ typedef __packed struct
   */
 typedef struct
 {
-	ext_supply_projectile_action_t    *supply_action;      //0x0102
-	ext_supply_projectile_booking_t   *supply_booking;     //0x0103
-	ext_game_robot_state_t            *robot_state;        //0x0201
-  ext_power_heat_data_t             *power_heat_data;    //0x0202
-	ext_shoot_data_t                  *shoot_data;         //0x0207
+	ext_supply_projectile_action_t    supply_action;      //0x0102
+	ext_supply_projectile_booking_t   supply_booking;     //0x0103
+	ext_game_robot_state_t            robot_state;        //0x0201
+  ext_power_heat_data_t             power_heat_data;    //0x0202
+	ext_shoot_data_t                  shoot_data;         //0x0207
 } referee_data_t;
 
 #endif
