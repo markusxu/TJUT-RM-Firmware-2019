@@ -1,35 +1,33 @@
-/******************************************************************************
-/// @brief
-/// @copyright Copyright (c) 2017 <dji-innovations, Corp. RM Dept.>
-/// @license MIT License
-/// Permission is hereby granted, free of charge, to any person obtaining a copy
-/// of this software and associated documentation files (the "Software"), to deal
-/// in the Software without restriction,including without limitation the rights
-/// to use, copy, modify, merge, publish, distribute, sublicense,and/or sell
-/// copies of the Software, and to permit persons to whom the Software is furnished
-/// to do so,subject to the following conditions:
-///
-/// The above copyright notice and this permission notice shall be included in
-/// all copies or substantial portions of the Software.
-///
-/// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-/// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-/// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-/// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-/// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-/// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-/// THE SOFTWARE.
-*******************************************************************************/
-/**
-  ******************************************************************************
-  * @file			pid.c
-  * @version		V1.0.0
-  * @date			2016年11月11日17:21:36
-  * @brief   		对于PID， 反馈/测量习惯性叫get/measure/real/fdb,
-						  期望输入一般叫set/target/ref
-  *******************************************************************************/
-  
-  
+/***********************************************************************************
+ *  Copyright (c) 2017 <dji-innovations, Corp. RM Dept.>
+ *  
+ *  Permission is hereby granted, free of charge, to any person obtaining a copy
+ *  of this software and associated documentation files (the "Software"), to deal
+ *  in the Software without restriction,including without limitation the rights
+ *  to use, copy, modify, merge, publish, distribute, sublicense,and/or sell
+ *  copies of the Software, and to permit persons to whom the Software is furnished
+ *  to do so,subject to the following conditions:
+ * 
+ *  The above copyright notice and this permission notice shall be included in
+ *  all copies or substantial portions of the Software.
+ * 
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ *  THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ *  THE SOFTWARE.
+ ***********************************************************************************/
+/** @file      pid.c
+ *  @version   1.0.0
+ *  @date      Nov-11-2016
+ *
+ *  @brief     对于PID， 反馈/测量习惯性叫get/measure/real/fdb,
+ *					   期望输入一般叫set/target/ref
+ *
+ *  @copyright Copyright (c) 2017 <dji-innovations, Corp. RM Dept.>
+ */
   
 /* Includes ------------------------------------------------------------------*/
 #include "pid.h"

@@ -25,16 +25,45 @@
  */
 
 #include "commonTask.h"
+#include "usart.h"
+
 #include "oled.h"
 #include "display.h"
 #include "key.h"
 #include "referee.h"
+#include "referee_info.h"
 #include "remotecontrol.h"
+#include <stdlib.h>
 #include <string.h>
 
 extern osTimerId chassisTimerId;
 extern osTimerId gimbalTimerId;
+extern key_state_t *keyboard;
+extern uint8_t reTxData[12];
+
+extern Key_STATUS key_R;
+
+
 uint8_t page;
+
+/**
+ * @brief task of unpacking referee system data
+ * 
+ * @param argument 
+ */
+void unpack_Task(void const * argument)
+{
+	for(;;)
+	{
+		refereeDataUnpack();
+		if(key_R.bit)
+		{
+			refereeDataPack();
+			HAL_UART_Transmit(&huart3, reTxData, 12, 1);
+			key_R.bit = 0;
+		}
+	}
+}
 
 /**
  * @brief task of display
@@ -87,15 +116,4 @@ void display_Task(void const * argument)
 	}
 }
 
-/**
- * @brief task of unpacking referee system data
- * 
- * @param argument 
- */
-void unpack_Task(void const * argument)
-{
-	for(;;)
-	{
-		refereeDataUnpack();
-	}
-}
+

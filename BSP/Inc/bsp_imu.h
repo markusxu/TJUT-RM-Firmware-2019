@@ -1,12 +1,28 @@
-/**
- ***************************************(C) COPYRIGHT 2018 DJI***************************************
- * @file       bsp_imu.h
- * @brief      this file contains the common defines and functions prototypes for 
+/****************************************************************************
+ *  Copyright (C) 2018 RoboMaster.
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program. If not, see <http://www.gnu.org/licenses/>.
+ ***************************************************************************/
+/** @file      bsp_imu.h
+ *  @version   1.0.0
+ *  @date      Jan-30-2018
+ *
+ *  @brief     This file contains the common defines and functions prototypes for 
  *             the bsp_imu.c driver
- * @note         
- * @Version    V1.0.0
- * @Date       Jan-30-2018      
- ***************************************(C) COPYRIGHT 2018 DJI***************************************
+ *
+ *  @copyright 2018 RoboMaster. All rights reserved.
+ *
  */
 
 #ifndef __MPU_H__

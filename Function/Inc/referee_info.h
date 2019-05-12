@@ -76,6 +76,21 @@ typedef __packed struct
   uint16_t   max_hp;
 } game_robot_state_t;
 
+typedef __packed struct 
+{
+	uint8_t supply_projectile_id;
+	uint8_t supply_robot_id;
+	uint8_t supply_projectile_step;
+	uint8_t supply_projectile_num;
+} ext_supply_projectile_action_t;
+
+typedef __packed struct 
+{   
+	uint8_t supply_projectile_id;
+	uint8_t supply_robot_id;
+	uint8_t supply_num;  
+} ext_supply_projectile_booking_t;
+
 /** 
   * @brief  real time blood volume change data(0x0002)
   */
@@ -105,6 +120,21 @@ typedef __packed struct
   uint8_t bullet_freq;
   float   bullet_speed;
 } ext_shoot_data_t;
+
+typedef __packed struct 
+{   
+	uint8_t  robot_id;
+	uint8_t  robot_level;
+	uint16_t remain_HP;
+	uint16_t max_HP;
+	uint16_t shooter_heat0_cooling_rate;
+	uint16_t shooter_heat0_cooling_limit;
+	uint16_t shooter_heat1_cooling_rate;
+	uint16_t shooter_heat1_cooling_limit;
+	uint8_t  mains_power_gimbal_output : 1;
+	uint8_t  mains_power_chassis_output : 1;
+	uint8_t  mains_power_shooter_output : 1;
+} ext_game_robot_state_t;
 
 /** 
   * @brief  real chassis power and shoot heat data(0x0202)
@@ -182,8 +212,11 @@ typedef __packed struct
   */
 typedef struct
 {
-  ext_power_heat_data_t  power_heat_data; //0x0202
-	ext_shoot_data_t       shoot_data;      //0x0207
+	ext_supply_projectile_action_t    supply_action;      //0x0102
+	ext_supply_projectile_booking_t   supply_booking;     //0x0103
+	ext_game_robot_state_t            robot_state;        //0x0201
+  ext_power_heat_data_t             power_heat_data;    //0x0202
+	ext_shoot_data_t                  shoot_data;         //0x0207
 } referee_data_t;
 
 #endif
