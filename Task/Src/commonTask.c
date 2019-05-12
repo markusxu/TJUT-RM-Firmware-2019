@@ -31,12 +31,19 @@
 #include "display.h"
 #include "key.h"
 #include "referee.h"
+#include "referee_info.h"
 #include "remotecontrol.h"
+#include <stdlib.h>
 #include <string.h>
 
 extern osTimerId chassisTimerId;
 extern osTimerId gimbalTimerId;
 extern key_state_t *keyboard;
+extern uint8_t reTxData[12];
+
+extern Key_STATUS key_R;
+
+
 uint8_t page;
 
 /**
@@ -49,7 +56,12 @@ void unpack_Task(void const * argument)
 	for(;;)
 	{
 		refereeDataUnpack();
-//		if(keyboard->R) HAL_UART_Transmit(&huart3, );
+		if(key_R.bit)
+		{
+			refereeDataPack();
+			HAL_UART_Transmit(&huart3, reTxData, 12, 1);
+			key_R.bit = 0;
+		}
 	}
 }
 

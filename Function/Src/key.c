@@ -40,6 +40,7 @@ key_state_t *keyboard ;
 
 Key_STATUS bottom;
 Key_STATUS key_X;
+Key_STATUS key_R;
 
 uint16_t kk;
 
@@ -49,6 +50,7 @@ void key_scan(void)
 	
 	switch_scan();
 	Key_GetStatus(&key_X, keyboard->X);
+	Key_GetStatus(&key_R, keyboard->R);
 	
 	kk = HAL_ADC_GetValue(&hadc1)/100;
 	Key_GetStatus(&bottom, (kk<35&&kk>30)?(1):(0));
@@ -69,6 +71,7 @@ void IOInit(void){
 	
 	Key_GetStatusInit(&bottom, RISE_TRIGGER, COUNT_UP, ENABLE, 1, 3);
 	Key_GetStatusInit(&key_X,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
+	Key_GetStatusInit(&key_R,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
 	
 	oled_clear(Pen_Clear);
 	oled_LOGO();

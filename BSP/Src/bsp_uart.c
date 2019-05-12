@@ -23,11 +23,10 @@
  *  @copyright 2018 RoboMaster. All rights reserved.
  *
  */
-                                                                                                              
-#include "string.h"
-#include "stdlib.h"
+
 #include "bsp_uart.h"
 #include "usart.h"
+#include "CRC.h"
 #include "mxconstants.h"
 #include <stdlib.h>
 #include <string.h>
@@ -173,7 +172,13 @@ static void USRT_Rx_IDLE_Callback(UART_HandleTypeDef* huart)
 		/* Handle referee system data re_buf from DMA */
 		if (re_buf[0] == 0xA5)
 		{
-			memcpy(re, re_buf, 126);
+			if(Verify_CRC8_Check_Sum(re_buf, 5))
+			{
+				if(Verify_CRC16_Check_Sum(re_buf, (re_buf[5]|re_buf[6]<<8)+9))
+				{
+					memcpy(re, re_buf, 126);
+				}
+			}
 		}
 		
 		/* restart dma transmission */
