@@ -634,6 +634,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Application/Algorithm</GroupName>
+          <Files>
+            <File>
+              <FileName>CRC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\CRC.c</FilePath>
+            </File>
+            <File>
+              <FileName>pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\Src\pid.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>Application/Function</GroupName>
           <Files>
             <File>
@@ -652,19 +667,9 @@
               <FilePath>..\Function\Src\key.c</FilePath>
             </File>
             <File>
-              <FileName>pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\pid.c</FilePath>
-            </File>
-            <File>
               <FileName>referee.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\Src\referee.c</FilePath>
-            </File>
-            <File>
-              <FileName>CRC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\Src\CRC.c</FilePath>
             </File>
           </Files>
         </Group>
