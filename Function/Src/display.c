@@ -31,7 +31,7 @@
 #include "remotecontrol.h"
 #include <string.h>
 
-extern rc_info_t *rc;
+extern rc_info_t rc;
 extern uint8_t re_buf[];
 extern re_info_t *re;
 extern referee_data_t reRxData;
@@ -47,10 +47,10 @@ void pageClean(unsigned char page, unsigned char set)
 
 void display_rc(void)
 {
-	oled_printf(0,1,"CH1:%4d ",rc->ch1);
-	oled_printf(0,10,"CH2:%4d",rc->ch2);
-	oled_printf(1,1,"CH3:%4d ",rc->ch3);
-	oled_printf(1,10,"CH4:%4d",rc->ch4);
+	oled_printf(0,1,"CH1:%4d ",rc.ch1);
+	oled_printf(0,10,"CH2:%4d",rc.ch2);
+	oled_printf(1,1,"CH3:%4d ",rc.ch3);
+	oled_printf(1,10,"CH4:%4d",rc.ch4);
 	oled_printf(4,10,"3/3");
 } 
 

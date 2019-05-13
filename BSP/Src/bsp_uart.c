@@ -32,7 +32,7 @@
 #include <string.h>
 
 uint8_t dbus_buf[DBUS_BUFLEN];
-rc_info_t *rc;
+rc_info_t rc;
 
 uint8_t re_buf[RE_BUFLEN];
 re_info_t *re = (re_info_t*)re_buf;
@@ -155,7 +155,7 @@ static void USRT_Rx_IDLE_Callback(UART_HandleTypeDef* huart)
 		/* Handle dbus data dbus_buf from DMA */
 		if ((DBUS_MAX_LEN - dma_current_data_counter(huart->hdmarx->Instance)) == DBUS_BUFLEN)
 		{
-			RC_Callback_Handler(rc, dbus_buf);	
+			RC_Callback_Handler(&rc, dbus_buf);	
 		}
 		
 		/* Restart dma transmission */
@@ -226,7 +226,7 @@ void uart_receive_handler(UART_HandleTypeDef *huart)
 void Dbus_USRT_Init(void)
 {
 	/*  */
-	rc = (rc_info_t *)malloc(sizeof(rc_info_t));
+//	rc = (rc_info_t *)malloc(sizeof(rc_info_t));
 	
 	/* Open USRT IDLE IT */
 	__HAL_UART_CLEAR_IDLEFLAG(&DBUS_HUART);

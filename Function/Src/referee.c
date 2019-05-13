@@ -36,7 +36,10 @@ uint8_t reTxData[12];
 
 void refereeDataUnpack(void)
 {
-	uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+
+	/**Some times incorrect
+	 * uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+	 */
 	
 	switch(re->cmd_id)
 	{
@@ -53,19 +56,19 @@ void refereeDataUnpack(void)
 		
 		case EXT_ROBO_STATE:
 		{
-			memcpy(&reRxData.robot_state, &re->data, data_length);
+			memcpy(&reRxData.robot_state, &re->data, 15);
 			break;
 		}
 		
 		case EXT_POWER_HEAT_DATA:
 		{
-			memcpy(&reRxData.power_heat_data, &re->data, data_length);
+			memcpy(&reRxData.power_heat_data, &re->data, 14);
 			break;
 		}
 		
 		case EXT_SHOOT_DATA:
 		{
-			memcpy(&reRxData.shoot_data, &re->data, data_length);
+			memcpy(&reRxData.shoot_data, &re->data, 6);
 			break;
 		}
 		

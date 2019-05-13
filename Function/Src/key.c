@@ -35,7 +35,7 @@
 
 //union KEY_Reg keyboard;
 union SW_Reg SWstate;
-extern rc_info_t *rc;
+extern rc_info_t rc;
 key_state_t *keyboard ;
 
 Key_STATUS bottom;
@@ -46,7 +46,7 @@ uint16_t kk;
 
 void key_scan(void)
 {
-	memcpy(keyboard, &rc->key, 2);
+	memcpy(keyboard, &rc.key, 2);
 	
 	switch_scan();
 	Key_GetStatus(&key_X, keyboard->X);
@@ -90,8 +90,8 @@ void IOInit(void){
 
 void switch_scan(void)
 {
-	SWstate.sw_buff.L=rc->sw1;
-	SWstate.sw_buff.R=rc->sw2;
+	SWstate.sw_buff.L=rc.sw1;
+	SWstate.sw_buff.R=rc.sw2;
 }
 
 void buttom_scan(void)

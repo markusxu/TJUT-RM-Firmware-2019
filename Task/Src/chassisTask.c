@@ -28,7 +28,7 @@
 
 Move_State	ChassisMoveState = MOVE_NONE;
 
-extern rc_info_t *rc;
+extern rc_info_t rc;
 extern key_state_t *keyboard;
 
 Chassis_TypeDef Chassis1;
@@ -170,9 +170,9 @@ void Chassis_Task(void const * argument)
 			
 			case KEY_HL_UP:
 			case KEY_HL_MD:
-				rcch[0] = -rc->ch1*10;
-				rcch[1] = -rc->ch2*10;
-				rcch[2] = -rc->ch3*10;
+				rcch[0] = -rc.ch1*10;
+				rcch[1] = -rc.ch2*10;
+				rcch[2] = -rc.ch3*10;
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;
@@ -195,7 +195,7 @@ void Chassis_Task(void const * argument)
 						rcch[0] *= 0.5;
 					}
 				}
-				rcch[2] = -rc->mouse.x*100;
+				rcch[2] = -rc.mouse.x*100;
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;

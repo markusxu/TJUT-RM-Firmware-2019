@@ -33,15 +33,32 @@ extern referee_data_t reRxData;
 void shoot_Task(void const * argument)
 {
 	uint8_t coolingStatue = 0;
+	
+	/* Iintal Timer --------------------------------------------------------------*/
+	uint32_t PreviousWakeTime = osKernelSysTick();
+	uint32_t DelayTime        = 5;
+	
 	for(;;)
 	{
+		osDelayUntil(&PreviousWakeTime,DelayTime);
+		
+		if(reRxData.robot_state.shooter_heat0_cooling_limit == 0) reRxData.robot_state.shooter_heat0_cooling_limit = 240;
+		
 		if(SWstate.sw_buff.R == 2 && SWstate.sw_buff.L != 2)
 		{
-			if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.9 || coolingStatue)
+			if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
 			{
-				TIM2->CCR1 = 1300;
-				TIM2->CCR2 = 1300;
-				if(!coolingStatue) coolingStatue = 1;
+				if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
+				{
+					TIM2->CCR1 = 1000;
+					TIM2->CCR2 = 1000;
+					if(!coolingStatue) coolingStatue = 1;
+				}
+				else
+				{
+					TIM2->CCR1 = 1300;
+					TIM2->CCR2 = 1300;
+				}
 			}
 			else
 			{
