@@ -14,26 +14,23 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file      display.h
+/** @file      shootTask.h
  *  @version   1.0
  *  @date      May 2019
  *
- *  @brief     display different type of data in OLED
+ *  @brief     Function of the shootTask
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
-
-#ifndef __DISPLAY_H__
-#define __DISPLAY_H__
+ 
+#ifndef __SHOOTTASK_H__
+#define __SHOOTTASK_H__
 
 #include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 
-void pageClean(unsigned char page, unsigned char set);
-void display_rc(void);
-void display_moto6020(void);
-void display_refereeSystem(void);
+void shoot_Task(void const * argument);
 
 #endif

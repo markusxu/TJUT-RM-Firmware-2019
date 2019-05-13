@@ -134,6 +134,7 @@ typedef __packed struct
 	uint8_t  mains_power_gimbal_output : 1;
 	uint8_t  mains_power_chassis_output : 1;
 	uint8_t  mains_power_shooter_output : 1;
+	uint8_t  retain : 5;
 } ext_game_robot_state_t;
 
 /** 

@@ -687,6 +687,11 @@
               <FilePath>..\Task\Src\gimbalTask.c</FilePath>
             </File>
             <File>
+              <FileName>shootTask.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Task\Src\shootTask.c</FilePath>
+            </File>
+            <File>
               <FileName>commonTask.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Task\Src\commonTask.c</FilePath>

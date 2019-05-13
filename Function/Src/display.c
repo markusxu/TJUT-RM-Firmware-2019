@@ -25,14 +25,10 @@
  */
  
 #include "display.h"
-#include "bsp_uart.h"
-#include "bsp_imu.h"
 #include "bsp_can.h"
 #include "oled.h"
-#include "key.h"
 #include "referee_info.h"
 #include "remotecontrol.h"
-#include "chassisTask.h"
 #include <string.h>
 
 extern rc_info_t *rc;
@@ -40,6 +36,14 @@ extern uint8_t re_buf[];
 extern re_info_t *re;
 extern referee_data_t reRxData;
 
+void pageClean(unsigned char page, unsigned char set)
+{
+	if(page != set)
+	{
+		oled_clear(Pen_Clear);
+		page = set;
+	}
+}
 
 void display_rc(void)
 {

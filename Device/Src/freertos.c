@@ -44,10 +44,9 @@
 #include "oled.h"
 #include "gpio.h"
 
-#include "display.h"
-#include "RemoteControl.h"
 #include "chassisTask.h"
 #include "gimbalTask.h"
+#include "shootTask.h"
 #include "key.h"
 #include "commonTask.h"
 
@@ -57,10 +56,10 @@
 osThreadId defaultTaskHandle;
 
 /* USER CODE BEGIN Variables */
-//extern const unsigned char asc2_1206[95][12];
 
 osThreadId chassisTaskHandle;
 osThreadId gimbalTaskHandle;
+osThreadId shootTaskHandle;
 osThreadId displayTaskHandle;
 osThreadId unpackTaskHandle;
 
@@ -124,6 +123,9 @@ void MX_FREERTOS_Init(void) {
 	
 	osThreadDef(gimbalTask, Gimbal_Task, osPriorityRealtime, 0, 128);
   gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
+	
+	osThreadDef(shootTask, shoot_Task, osPriorityNormal, 0, 128);
+	shootTaskHandle = osThreadCreate(osThread(shootTask), NULL);
 	
 	osThreadDef(displayTask, display_Task, osPriorityNormal, 0, 512);
   displayTaskHandle = osThreadCreate(osThread(displayTask), NULL);

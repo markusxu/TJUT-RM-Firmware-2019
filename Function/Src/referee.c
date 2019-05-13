@@ -45,21 +45,21 @@ void refereeDataUnpack(void)
 			reRxData.supply_booking.supply_projectile_id = reRxData.supply_action.supply_projectile_id;
 			if(reRxData.supply_action.supply_robot_id == reRxData.robot_state.robot_id)
 			{
-				reRxData.supply_booking.supply_robot_id = reRxData.robot_state.robot_id;
+				reRxData.supply_booking.supply_robot_id = reRxData.supply_action.supply_robot_id;
 			}
 			reRxData.supply_booking.supply_num = 50;
-			break;
-		}
-		
-		case EXT_POWER_HEAT_DATA:
-		{
-			memcpy(&reRxData.power_heat_data, &re->data, data_length);
 			break;
 		}
 		
 		case EXT_ROBO_STATE:
 		{
 			memcpy(&reRxData.robot_state, &re->data, data_length);
+			break;
+		}
+		
+		case EXT_POWER_HEAT_DATA:
+		{
+			memcpy(&reRxData.power_heat_data, &re->data, data_length);
 			break;
 		}
 		

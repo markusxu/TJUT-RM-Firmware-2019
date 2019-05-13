@@ -81,33 +81,21 @@ void display_Task(void const * argument)
 		{
 			case 1:
 			{
-				if(page != 1)
-				{
-					oled_clear(Pen_Clear);
-					page = 1;
-				}
+				pageClean(page, 1);
 				display_refereeSystem();
 				break;
 			}
 				
 			case 2:
 			{
-				if(page != 2)
-				{
-					oled_clear(Pen_Clear);
-					page = 2;
-				}
+				pageClean(page, 2);
 				display_moto6020();
 				break;
 			}
 			
 			case 3:
 			{
-				if(page != 3)
-				{
-					oled_clear(Pen_Clear);
-					page = 3;
-				}
+				pageClean(page, 3);
 				display_rc();
 				break;
 			}
@@ -115,5 +103,3 @@ void display_Task(void const * argument)
 		oled_refresh_gram();
 	}
 }
-
-

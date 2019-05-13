@@ -28,5 +28,4 @@ union SW_Reg{
 //extern union KEY_Reg keyboard;
 extern union SW_Reg SWstate;
 
-void RC_Data(void const * argument);
 #endif

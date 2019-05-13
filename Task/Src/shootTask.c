@@ -14,26 +14,47 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file      display.h
+/** @file      shootTask.c
  *  @version   1.0
  *  @date      May 2019
  *
- *  @brief     display different type of data in OLED
+ *  @brief     Handle the referee heat data
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
+ 
+#include "shootTask.h"
+#include "referee_info.h"
+#include "remotecontrol.h"
 
-#ifndef __DISPLAY_H__
-#define __DISPLAY_H__
+extern referee_data_t reRxData;
 
-#include "stm32f4xx.h"
-#include "stm32f4xx_hal.h"
-#include "cmsis_os.h"
-
-void pageClean(unsigned char page, unsigned char set);
-void display_rc(void);
-void display_moto6020(void);
-void display_refereeSystem(void);
-
-#endif
+void shoot_Task(void const * argument)
+{
+	uint8_t coolingStatue = 0;
+	for(;;)
+	{
+		if(SWstate.sw_buff.R == 2 && SWstate.sw_buff.L != 2)
+		{
+			if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.9 || coolingStatue)
+			{
+				TIM2->CCR1 = 1300;
+				TIM2->CCR2 = 1300;
+				if(!coolingStatue) coolingStatue = 1;
+			}
+			else
+			{
+				TIM2->CCR1 = 1700;
+				TIM2->CCR2 = 1700;
+			}
+		} 
+		else
+		{
+			TIM2->CCR1 = 1000;
+			TIM2->CCR2 = 1000;
+		}
+		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.5)
+			coolingStatue = 0;
+	}		
+}

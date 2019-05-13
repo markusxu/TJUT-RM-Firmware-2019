@@ -131,8 +131,8 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_UP:
 			case KEY_HL_UP:
 				Set_Gimbal_Current(0, 0, 0);
-				TIM2->CCR1 = 1000;
-				TIM2->CCR2 = 1000;
+//				TIM2->CCR1 = 1000;
+//				TIM2->CCR2 = 1000;
 				LASER_OFF;
 				break;
 			
@@ -140,15 +140,15 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_MD:
 			case KEY_HL_MD:
 				Set_Gimbal_Current(rc->sw*2, -rc->ch4, 0);
-				TIM2->CCR1 = 1000;
-				TIM2->CCR2 = 1000;
+//				TIM2->CCR1 = 1000;
+//				TIM2->CCR2 = 1000;
 				LASER_OFF;
 				break;
 			
 			case KEY_OFF_DN:
 			case KEY_CL_DN:
-				TIM2->CCR1 = 2000;
-				TIM2->CCR2 = 2000;
+//				TIM2->CCR1 = 2000;
+//				TIM2->CCR2 = 2000;
 				Set_Gimbal_Current(rc->sw*2, -rc->ch4, 1200);
 				LASER_ON;
 				break;
@@ -159,8 +159,8 @@ void Gimbal_Task(void const * argument)
 				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
 				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
 				
-				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
-				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
+//				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
+//				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
 				
 				(rc->mouse.press_r && rc->mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);
 				
