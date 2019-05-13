@@ -112,9 +112,17 @@ void Set_GM6020_Current(int16_t target_spd){
 void Gimbal_Task(void const * argument)
 {
 	GimbalInit();
+	
+	/* Iintal Timer --------------------------------------------------------------*/
+	uint32_t PreviousWakeTime = osKernelSysTick();
+	uint32_t DelayTime        = 1;
+	
 	for(;;)
 	{
-		Angle_transimit();	
+		osDelayUntil(&PreviousWakeTime,DelayTime);
+		
+		Angle_transimit();
+		
 		switch (SWstate.value)
 		{
 			case KEY_OFF_UP:

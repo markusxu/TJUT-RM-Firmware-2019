@@ -145,8 +145,13 @@ void Chassis_Task(void const * argument)
 {
 	ChassisPIDInit();
 	
+	uint32_t PreviousWakeTime = osKernelSysTick();
+	uint32_t DelayTime        = 10;
+	
 	for(;;)
 	{
+		osDelayUntil(&PreviousWakeTime,DelayTime);
+		
 		switch (SWstate.value)
 		{						
 			case KEY_OFF_UP:
