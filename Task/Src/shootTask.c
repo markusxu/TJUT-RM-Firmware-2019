@@ -26,7 +26,7 @@
  
 #include "shootTask.h"
 #include "referee_info.h"
-#include "remotecontrol.h"
+#include "key.h"
 
 extern referee_data_t reRxData;
 

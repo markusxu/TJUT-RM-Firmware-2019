@@ -27,16 +27,9 @@
 #ifndef __CHASSIA_TASK_H__
 #define __CHASSIA_TASK_H__
 
+#include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h" 
-#include "bsp_can.h"
-#include "can.h"
-#include "pid.h"
-#include "tim.h"
-#include "key.h"
-#include "remotecontrol.h"
-#include "USER_DEFINITION.h"
-#include <math.h>
 
 #ifdef EC60
 	#define Max_WheelSpeed 2500  

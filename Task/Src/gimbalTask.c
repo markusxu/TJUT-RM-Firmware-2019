@@ -25,12 +25,12 @@
  */
  
 #include "gimbalTask.h"
-#include "bsp_can.h"
 #include "can.h"
-#include "pid.h"
 #include "tim.h"
+#include "bsp_can.h"
+#include "bsp_uart.h"
+#include "pid.h"
 #include "key.h"
-#include "remotecontrol.h"
 #include "USER_DEFINITION.h"
 #include <math.h>
 
@@ -96,18 +96,18 @@ void Angle_transimit(void){
 	
 }
 
-/**********************************************************
-void Set_GM6020_Current(int16_t target_spd){
-	
-		pid_calc(&pid_pit, moto_pit.speed_rpm, target_spd);
-    set_motor_voltage(&hcan1, 
-                      pid_pit.pos_out, 
-                      pid_pit.pos_out, 
-                      pid_poke.pos_out, 
-                      0);
-    
-}
-**********************************************************/
+/**
+ * void Set_GM6020_Current(int16_t target_spd)
+ * {
+ * 	pid_calc(&pid_pit, moto_pit.speed_rpm, target_spd);
+ * 	set_motor_voltage(&hcan1, 
+ *                     pid_pit.pos_out, 
+ *                     pid_pit.pos_out, 
+ *                     pid_poke.pos_out, 
+ *                     0);
+ *    
+ * }
+ */
 
 void Gimbal_Task(void const * argument)
 {

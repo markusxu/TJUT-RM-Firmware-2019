@@ -68,6 +68,15 @@ typedef enum
 	
 }Key_GetStatusInit_Parameters;
 
+union SW_Reg{
+  uint8_t    value;
+  struct {
+		uint8_t L:2;
+		uint8_t R:2;
+		uint8_t st:4;
+	 }sw_buff;
+};
+
 typedef __packed struct 
 {
 	uint16_t W:     1;
@@ -140,5 +149,6 @@ static int Key_GetStatusInit(Key_STATUS* key_t,
 
 extern Key_STATUS bottom;
 extern Key_STATUS key_X;
+extern union SW_Reg SWstate;
 
 #endif 

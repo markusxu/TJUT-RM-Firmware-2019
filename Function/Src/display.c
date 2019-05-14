@@ -26,9 +26,10 @@
  
 #include "display.h"
 #include "bsp_can.h"
+#include "bsp_uart.h"
 #include "oled.h"
+#include "key.h"
 #include "referee_info.h"
-#include "remotecontrol.h"
 #include <string.h>
 
 extern rc_info_t rc;

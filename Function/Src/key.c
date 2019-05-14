@@ -27,8 +27,8 @@
 #include "key.h"
 #include "adc.h"
 #include "tim.h"
+#include "bsp_uart.h"
 #include "oled.h"
-#include "remotecontrol.h"
 #include "USER_DEFINITION.h"
 #include <stdlib.h>
 #include <string.h>

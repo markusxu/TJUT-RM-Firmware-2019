@@ -25,6 +25,14 @@
  */
 
 #include "chassisTask.h"
+#include "can.h"
+#include "tim.h"
+#include "bsp_can.h"
+#include "bsp_uart.h"
+#include "pid.h"
+#include "key.h"
+#include "USER_DEFINITION.h"
+#include <math.h>
 
 Move_State	ChassisMoveState = MOVE_NONE;
 
