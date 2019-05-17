@@ -30,6 +30,8 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h" 
 
+#define GIMBALTAKS_DELAY_TIMES 1
+
 void GimbalPIDInit(void);
 void GimbalInit(void);
 void Set_Gimbal_Current(int16_t yaw_target_spd, int16_t pit_target_spd, int16_t set_spd);

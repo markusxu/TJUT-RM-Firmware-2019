@@ -31,6 +31,8 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h" 
 
+#define CHASSIATASK_DELAY_TIMES 10
+
 #ifdef EC60
 	#define Max_WheelSpeed 2500  
 #else

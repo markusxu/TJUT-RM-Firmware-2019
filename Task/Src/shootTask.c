@@ -30,17 +30,18 @@
 
 extern referee_data_t reRxData;
 
+uint16_t pokeSpeed = 0;
+
 void shoot_Task(void const * argument)
 {
 	uint8_t coolingStatue = 0;
 	
 	/* Iintal Timer --------------------------------------------------------------*/
 	uint32_t PreviousWakeTime = osKernelSysTick();
-	uint32_t DelayTime        = 5;
 	
 	for(;;)
 	{
-		osDelayUntil(&PreviousWakeTime,DelayTime);
+		osDelayUntil(&PreviousWakeTime,SHOOTTAKS_DELAY_TIMES);
 		
 		if(reRxData.robot_state.shooter_heat0_cooling_limit == 0) reRxData.robot_state.shooter_heat0_cooling_limit = 240;
 		
@@ -52,26 +53,35 @@ void shoot_Task(void const * argument)
 				{
 					TIM2->CCR1 = 1000;
 					TIM2->CCR2 = 1000;
+					pokeSpeed = shootFequence(0);
 					if(!coolingStatue) coolingStatue = 1;
 				}
 				else
 				{
 					TIM2->CCR1 = 1300;
 					TIM2->CCR2 = 1300;
+					pokeSpeed = shootFequence(2);
 				}
 			}
 			else
 			{
 				TIM2->CCR1 = 1700;
 				TIM2->CCR2 = 1700;
+				pokeSpeed = shootFequence(4);
 			}
 		} 
 		else
 		{
 			TIM2->CCR1 = 1000;
 			TIM2->CCR2 = 1000;
+			pokeSpeed = shootFequence(0);
 		}
 		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.5)
 			coolingStatue = 0;
 	}		
+}
+
+unsigned short int shootFequence(uint8_t Hz)
+{
+	return 308*Hz;
 }

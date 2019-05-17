@@ -31,6 +31,9 @@
 #include "stm32f4xx_hal.h"
 #include "cmsis_os.h"
 
+#define SHOOTTAKS_DELAY_TIMES 5
+
 void shoot_Task(void const * argument);
+unsigned short int shootFequence(uint8_t Hz);
 
 #endif
