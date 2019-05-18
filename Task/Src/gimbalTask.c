@@ -53,6 +53,8 @@ void Gimbal_Task(void const * argument)
 		
 		Angle_transimit();
 		
+		
+		
 		switch (SWstate.value)
 		{
 			case KEY_OFF_UP:

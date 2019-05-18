@@ -32,9 +32,9 @@
 #define GIMBAL_YAW_KI  0.1f
 #define GIMBAL_YAW_KD  425.5f
 
-#define GIMBAL_PIT_KP  122.6f
-#define GIMBAL_PIT_KI  0.1f
-#define GIMBAL_PIT_KD  170.8f
+#define GIMBAL_PIT_KP  195.6f
+#define GIMBAL_PIT_KI  1.1f
+#define GIMBAL_PIT_KD  380.8f
 
 
 #ifdef IF_NO1
