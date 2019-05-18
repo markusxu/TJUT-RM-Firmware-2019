@@ -216,7 +216,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     __HAL_LINKDMA(uartHandle,hdmarx,hdma_usart2_rx);
 
     /* Peripheral interrupt init */
-    HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
+    HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
     HAL_NVIC_EnableIRQ(USART2_IRQn);
   /* USER CODE BEGIN USART2_MspInit 1 */
 
@@ -295,7 +295,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     hdma_usart6_rx.Init.MemInc = DMA_MINC_ENABLE;
     hdma_usart6_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
     hdma_usart6_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-    hdma_usart6_rx.Init.Mode = DMA_NORMAL;
+    hdma_usart6_rx.Init.Mode = DMA_CIRCULAR;
     hdma_usart6_rx.Init.Priority = DMA_PRIORITY_LOW;
     hdma_usart6_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
     if (HAL_DMA_Init(&hdma_usart6_rx) != HAL_OK)

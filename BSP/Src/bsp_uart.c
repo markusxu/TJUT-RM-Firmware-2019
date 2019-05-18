@@ -193,9 +193,9 @@ static void USRT_Rx_IDLE_Callback(UART_HandleTypeDef* huart)
 		__HAL_DMA_DISABLE(huart->hdmarx);
 
 		/* Handle PC data pc_buf from DMA */
-		if (re_buf[0] == 0xA5)
+		if (re_buf[0] == 0xCC)
 		{
-			memcpy(re, re_buf, 126);
+			
 		}
 		
 		/* Restart DMA transmission */

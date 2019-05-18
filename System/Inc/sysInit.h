@@ -14,23 +14,23 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file commonTask.h
+/** @file gimbalTask.h
  *  @version 1.0
  *  @date May 2019
  *
- *  @brief display different type of data in OLED
+ *  @brief communicate with computer task
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
  
-#ifndef __COMMONTASK_H__
-#define __COMMONTASK_H__
+#ifndef __SYSINIT_H__
+#define __SYSINIT_H__
 
 #include "stm32f4xx_hal.h"
+#include "cmsis_os.h" 
 
-void modeSwitch_Task(void const * argument);
-void display_Task(void const * argument);
-void unpack_Task(void const * argument);
+void IO_Init(void);
+void systemInit(void);
 
 #endif

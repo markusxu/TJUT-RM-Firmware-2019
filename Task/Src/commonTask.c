@@ -40,10 +40,23 @@ extern osTimerId gimbalTimerId;
 extern key_state_t *keyboard;
 extern uint8_t reTxData[12];
 
-extern Key_STATUS key_R;
-
-
 uint8_t page;
+
+/**
+ * @brief task of unpacking referee system data
+ * 
+ * @param argument 
+ */
+void modeSwitch_Task(void const * argument)
+{
+	for(;;)
+	{
+		if(SWstate.value == KEY_HL_DN)
+		{
+			
+		}
+	}
+}
 
 /**
  * @brief task of unpacking referee system data
@@ -55,12 +68,6 @@ void unpack_Task(void const * argument)
 	for(;;)
 	{
 		refereeDataUnpack();
-		if(key_R.bit)
-		{
-			refereeDataPack();
-			HAL_UART_Transmit(&huart3, reTxData, 12, 1);
-			key_R.bit = 0;
-		}
 	}
 }
 

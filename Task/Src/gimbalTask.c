@@ -53,7 +53,10 @@ void Gimbal_Task(void const * argument)
 		
 		Angle_transimit();
 		
-		
+		if(key_R.bit)
+			TIM2->CCR3 = 1500;
+		else
+			TIM2->CCR3 = 900;
 		
 		switch (SWstate.value)
 		{

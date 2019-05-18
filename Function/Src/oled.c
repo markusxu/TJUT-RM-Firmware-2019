@@ -428,7 +428,7 @@ void oled_LOCK(void)
  * @param   None
  * @retval  None
  */
-void oled_init(void)
+void oled_Init(void)
 {
     OLED_RST_Clr();
     HAL_Delay(500);

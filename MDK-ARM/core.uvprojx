@@ -337,7 +337,7 @@
               <MiscControls>--C99</MiscControls>
               <Define>USE_HAL_DRIVER,STM32F427xx</Define>
               <Undefine></Undefine>
-              <IncludePath>../Device/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../BSP/Inc;../Function/Inc;../USER/Inc;../Task/Inc</IncludePath>
+              <IncludePath>../Device/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Drivers/CMSIS/Include;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../BSP/Inc;../Function/Inc;../USER/Inc;../Task/Inc;../System/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -610,6 +610,16 @@
               <FileName>stm32f4xx_hal_timebase_TIM.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Device\Src\stm32f4xx_hal_timebase_TIM.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Application/System</GroupName>
+          <Files>
+            <File>
+              <FileName>sysInit.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\System\Src\sysInit.c</FilePath>
             </File>
           </Files>
         </Group>

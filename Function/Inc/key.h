@@ -136,7 +136,7 @@ int b;
 }STR3;
 
 void key_scan(void);
-void IOInit(void);
+void key_Init(void);
 void switch_scan(void);
 void buttom_scan(void);
 void Key_GetStatus(Key_STATUS* buttom, uint8_t keystste);
@@ -148,7 +148,7 @@ static int Key_GetStatusInit(Key_STATUS* key_t,
 															uint32_t countMAX);
 
 extern Key_STATUS bottom;
-extern Key_STATUS key_X;
+extern Key_STATUS key_X,key_R,key_E;
 extern union SW_Reg SWstate;
 
 #endif 
