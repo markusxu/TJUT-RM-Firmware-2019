@@ -7,30 +7,33 @@
  *  (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of?
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.? See the
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file commonTask.h
- *  @version 1.0
- *  @date May 2019
+/** @file      shootTask.h
+ *  @version   1.0
+ *  @date      May 2019
  *
- *  @brief display different type of data in OLED
+ *  @brief     Function of the shootTask
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
  
-#ifndef __COMMONTASK_H__
-#define __COMMONTASK_H__
+#ifndef __SHOOTTASK_H__
+#define __SHOOTTASK_H__
 
+#include "stm32f4xx.h"
 #include "stm32f4xx_hal.h"
+#include "cmsis_os.h"
 
-void modeSwitch_Task(void const * argument);
-void display_Task(void const * argument);
-void unpack_Task(void const * argument);
+#define SHOOTTAKS_DELAY_TIMES 5
+
+void shoot_Task(void const * argument);
+unsigned short int shootFequence(uint8_t Hz);
 
 #endif

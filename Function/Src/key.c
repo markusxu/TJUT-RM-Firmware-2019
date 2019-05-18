@@ -27,71 +27,55 @@
 #include "key.h"
 #include "adc.h"
 #include "tim.h"
+#include "bsp_uart.h"
 #include "oled.h"
-#include "remotecontrol.h"
 #include "USER_DEFINITION.h"
 #include <stdlib.h>
 #include <string.h>
 
 //union KEY_Reg keyboard;
 union SW_Reg SWstate;
-extern rc_info_t *rc;
+extern rc_info_t rc;
 key_state_t *keyboard ;
 
 Key_STATUS bottom;
 Key_STATUS key_X;
 Key_STATUS key_R;
+Key_STATUS key_E;
 
 uint16_t kk;
 
 void key_scan(void)
 {
-	memcpy(keyboard, &rc->key, 2);
+	memcpy(keyboard, &rc.key, 2);
 	
 	switch_scan();
 	Key_GetStatus(&key_X, keyboard->X);
 	Key_GetStatus(&key_R, keyboard->R);
+	Key_GetStatus(&key_E, keyboard->E);
 	
 	kk = HAL_ADC_GetValue(&hadc1)/100;
 	Key_GetStatus(&bottom, (kk<35&&kk>30)?(1):(0));
 }
 
-void IOInit(void){
-	
-	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-	
-	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_2, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_3, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);
-	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_5, GPIO_PIN_SET);
-	
+void key_Init(void)
+{
 	keyboard = (key_state_t *)malloc(sizeof(key_state_t));
 	
 	Key_GetStatusInit(&bottom, RISE_TRIGGER, COUNT_UP, ENABLE, 1, 3);
 	Key_GetStatusInit(&key_X,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
 	Key_GetStatusInit(&key_R,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
+	Key_GetStatusInit(&key_E,  RISE_TRIGGER, COUNT_UP, ENABLE, 0, 0);
 	
 	oled_clear(Pen_Clear);
 	oled_LOGO();
 	oled_refresh_gram();
-	
-//	for(;;){
-//		switch_scan();
-//		if(SWstate.value == KEY_OFF_UP){
-//			break;
-//		}
-//		TIM12->CCR1 = 250;
-//	}
-			
-	TIM12->CCR1 = 0;
 }
 
 void switch_scan(void)
 {
-	SWstate.sw_buff.L=rc->sw1;
-	SWstate.sw_buff.R=rc->sw2;
+	SWstate.sw_buff.L=rc.sw1;
+	SWstate.sw_buff.R=rc.sw2;
 }
 
 void buttom_scan(void)

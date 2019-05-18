@@ -103,6 +103,7 @@ typedef __packed struct
 void uart_receive_handler(UART_HandleTypeDef *huart);
 void Dbus_USRT_Init(void);
 void Referee_USRT_Init(void);
+void PC_USRT_Init(void);
 void USART_SendData(USART_TypeDef* USARTx, uint16_t Data);
 #endif
 

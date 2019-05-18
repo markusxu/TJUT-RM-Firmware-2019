@@ -57,7 +57,7 @@ typedef enum
 }Pen_Typedef;
 
 /* function define */
-void oled_init(void);
+void oled_Init(void);
 void oled_write_byte(uint8_t dat, uint8_t cmd);
 void oled_display_on(void);
 void oled_display_off(void);

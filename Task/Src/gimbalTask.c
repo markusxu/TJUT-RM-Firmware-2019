@@ -25,18 +25,89 @@
  */
  
 #include "gimbalTask.h"
-#include "bsp_can.h"
 #include "can.h"
-#include "pid.h"
 #include "tim.h"
+#include "bsp_can.h"
+#include "bsp_uart.h"
+#include "pid.h"
 #include "key.h"
-#include "remotecontrol.h"
 #include "USER_DEFINITION.h"
 #include <math.h>
 
+extern rc_info_t rc;
+extern uint16_t pokeSpeed;
+
 int16_t mouse_move_angle;
 uint8_t mouse_click_shoot;
-extern rc_info_t *rc;
+
+void Gimbal_Task(void const * argument)
+{
+	GimbalInit();
+	
+	/* Iintal Timer --------------------------------------------------------------*/
+	uint32_t PreviousWakeTime = osKernelSysTick();
+	
+	for(;;)
+	{
+		osDelayUntil(&PreviousWakeTime,GIMBALTAKS_DELAY_TIMES);
+		
+		Angle_transimit();
+		
+		if(key_R.bit)
+			TIM2->CCR3 = 1500;
+		else
+			TIM2->CCR3 = 900;
+		
+		switch (SWstate.value)
+		{
+			case KEY_OFF_UP:
+				Set_Gimbal_Current(0, 450, pokeSpeed);
+				break;
+			case KEY_CL_UP:
+			case KEY_HL_UP:
+				Set_Gimbal_Current(0, 0, pokeSpeed);
+				LASER_OFF;
+				break;
+			
+			case KEY_OFF_MD:
+			case KEY_CL_MD:
+			case KEY_HL_MD:
+				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
+				TIM2->CCR3 = 900;
+				LASER_OFF;
+				break;
+			
+			case KEY_OFF_DN:
+			case KEY_CL_DN:
+				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
+				TIM2->CCR3 = 1500;
+				LASER_ON;
+				break;
+			
+			case KEY_HL_DN:
+			{
+				mouse_move_angle = mouse_move_angle + rc.mouse.y;
+				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
+				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
+				
+				/***********************************************************
+				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
+				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
+				***********************************************************/
+				
+				(rc.mouse.press_r && rc.mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);
+				
+				Set_Gimbal_Current(rc.sw, mouse_move_angle, mouse_click_shoot*100);
+				
+				if(key_X.bit){LASER_ON}else LASER_OFF;
+				break;
+			}
+			
+			default:
+				break;
+		}
+	}
+}
 
 void GimbalPIDInit(void){
 
@@ -96,74 +167,15 @@ void Angle_transimit(void){
 	
 }
 
-/**********************************************************
-void Set_GM6020_Current(int16_t target_spd){
-	
-		pid_calc(&pid_pit, moto_pit.speed_rpm, target_spd);
-    set_motor_voltage(&hcan1, 
-                      pid_pit.pos_out, 
-                      pid_pit.pos_out, 
-                      pid_poke.pos_out, 
-                      0);
-    
-}
-**********************************************************/
-
-void Gimbal_Task(void const * argument)
-{
-	GimbalInit();
-	for(;;)
-	{
-		Angle_transimit();	
-		switch (SWstate.value)
-		{
-			case KEY_OFF_UP:
-				Set_Gimbal_Current(0, 450, 0);
-				break;
-			case KEY_CL_UP:
-			case KEY_HL_UP:
-				Set_Gimbal_Current(0, 0, 0);
-				TIM2->CCR1 = 1000;
-				TIM2->CCR2 = 1000;
-				LASER_OFF;
-				break;
-			
-			case KEY_OFF_MD:
-			case KEY_CL_MD:
-			case KEY_HL_MD:
-				Set_Gimbal_Current(rc->sw*2, -rc->ch4, 0);
-				TIM2->CCR1 = 1000;
-				TIM2->CCR2 = 1000;
-				LASER_OFF;
-				break;
-			
-			case KEY_OFF_DN:
-			case KEY_CL_DN:
-				TIM2->CCR1 = 2000;
-				TIM2->CCR2 = 2000;
-				Set_Gimbal_Current(rc->sw*2, -rc->ch4, 1200);
-				LASER_ON;
-				break;
-			
-			case KEY_HL_DN:
-			{
-				mouse_move_angle = mouse_move_angle + rc->mouse.y;
-				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
-				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
-				
-				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
-				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
-				
-				(rc->mouse.press_r && rc->mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);
-				
-				Set_Gimbal_Current(rc->sw, mouse_move_angle, mouse_click_shoot*100);
-				
-				if(key_X.bit){LASER_ON}else LASER_OFF;
-				break;
-			}
-			
-			default:
-				break;
-		}
-	}
-}
+/**
+ * void Set_GM6020_Current(int16_t target_spd)
+ * {
+ * 	pid_calc(&pid_pit, moto_pit.speed_rpm, target_spd);
+ * 	set_motor_voltage(&hcan1, 
+ *                     pid_pit.pos_out, 
+ *                     pid_pit.pos_out, 
+ *                     pid_poke.pos_out, 
+ *                     0);
+ *    
+ * }
+ */

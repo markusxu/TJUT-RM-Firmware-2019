@@ -22,19 +22,19 @@
 #define CAN_CONTROL	//const current control 
 //#define PWM_CONTROL	//const speed control
 
-#define IF_NO1
+//#define IF_NO1
 
 #define CHASSIS_KP 1.5f
 #define CHASSIS_KI 0.1f
 #define CHASSIS_KD 0.0f
 
 #define GIMBAL_YAW_KP  101.5f
-#define GIMBAL_YAW_KI  0.7f
+#define GIMBAL_YAW_KI  0.1f
 #define GIMBAL_YAW_KD  425.5f
 
-#define GIMBAL_PIT_KP  122.6f
-#define GIMBAL_PIT_KI  3.7f
-#define GIMBAL_PIT_KD  170.8f
+#define GIMBAL_PIT_KP  195.6f
+#define GIMBAL_PIT_KI  1.1f
+#define GIMBAL_PIT_KD  380.8f
 
 
 #ifdef IF_NO1

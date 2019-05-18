@@ -14,26 +14,64 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  ***************************************************************************/
-/** @file      display.h
+/** @file      sysInit.c
  *  @version   1.0
  *  @date      May 2019
  *
- *  @brief     display different type of data in OLED
+ *  @brief     Handle the referee heat data
  *
  *  @copyright 2019 TJUT RoboMaster. All rights reserved.
  *
  */
+ 
+#include "sysInit.h"
+#include "tim.h"
+#include "gpio.h"
+#include "bsp_uart.h"
+#include "oled.h"
+#include "key.h"
 
-#ifndef __DISPLAY_H__
-#define __DISPLAY_H__
+void systemInit(void)
+{
+	Dbus_USRT_Init();
+	Referee_USRT_Init();
+	PC_USRT_Init();
+	
+	oled_Init();
+	oled_LOGO();
+	
+	IO_Init();
+	key_Init();
+	
+	for(uint8_t i=0; i<8; i++)
+	{
+		GPIOG->ODR = GPIOG->ODR << 1;
+		HAL_Delay(150);
+	}
+	
+/*	
+	for(;;){
+		switch_scan();
+		if(SWstate.value == KEY_OFF_UP){
+			break;
+		}
+		TIM12->CCR1 = 250;
+	}
+	TIM12->CCR1 = 0;
+*/
+	
+}
 
-#include "stm32f4xx.h"
-#include "stm32f4xx_hal.h"
-#include "cmsis_os.h"
-
-void pageClean(unsigned char page, unsigned char set);
-void display_rc(void);
-void display_moto6020(void);
-void display_refereeSystem(void);
-
-#endif
+void IO_Init(void){
+	
+	HAL_TIM_PWM_Start(&htim12, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+	
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_2, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_3, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_4, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(GPIOH, GPIO_PIN_5, GPIO_PIN_SET);
+	
+	TIM12->CCR1 = 0;
+}

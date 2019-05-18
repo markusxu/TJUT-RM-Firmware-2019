@@ -36,7 +36,10 @@ uint8_t reTxData[12];
 
 void refereeDataUnpack(void)
 {
-	uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+
+	/**Some times incorrect
+	 * uint16_t data_length = (uint16_t)(re->frame_header[1] | re->frame_header[2] << 8);
+	 */
 	
 	switch(re->cmd_id)
 	{
@@ -45,27 +48,27 @@ void refereeDataUnpack(void)
 			reRxData.supply_booking.supply_projectile_id = reRxData.supply_action.supply_projectile_id;
 			if(reRxData.supply_action.supply_robot_id == reRxData.robot_state.robot_id)
 			{
-				reRxData.supply_booking.supply_robot_id = reRxData.robot_state.robot_id;
+				reRxData.supply_booking.supply_robot_id = reRxData.supply_action.supply_robot_id;
 			}
 			reRxData.supply_booking.supply_num = 50;
 			break;
 		}
 		
-		case EXT_POWER_HEAT_DATA:
+		case EXT_ROBO_STATE:
 		{
-			memcpy(&reRxData.power_heat_data, &re->data, data_length);
+			memcpy(&reRxData.robot_state, &re->data, 15);
 			break;
 		}
 		
-		case EXT_ROBO_STATE:
+		case EXT_POWER_HEAT_DATA:
 		{
-			memcpy(&reRxData.robot_state, &re->data, data_length);
+			memcpy(&reRxData.power_heat_data, &re->data, 14);
 			break;
 		}
 		
 		case EXT_SHOOT_DATA:
 		{
-			memcpy(&reRxData.shoot_data, &re->data, data_length);
+			memcpy(&reRxData.shoot_data, &re->data, 6);
 			break;
 		}
 		

@@ -26,13 +26,12 @@
 
 #include "commonTask.h"
 #include "usart.h"
-
+#include "bsp_uart.h"
 #include "oled.h"
 #include "display.h"
 #include "key.h"
 #include "referee.h"
 #include "referee_info.h"
-#include "remotecontrol.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -41,10 +40,23 @@ extern osTimerId gimbalTimerId;
 extern key_state_t *keyboard;
 extern uint8_t reTxData[12];
 
-extern Key_STATUS key_R;
-
-
 uint8_t page;
+
+/**
+ * @brief task of unpacking referee system data
+ * 
+ * @param argument 
+ */
+void modeSwitch_Task(void const * argument)
+{
+	for(;;)
+	{
+		if(SWstate.value == KEY_HL_DN)
+		{
+			
+		}
+	}
+}
 
 /**
  * @brief task of unpacking referee system data
@@ -56,12 +68,6 @@ void unpack_Task(void const * argument)
 	for(;;)
 	{
 		refereeDataUnpack();
-		if(key_R.bit)
-		{
-			refereeDataPack();
-			HAL_UART_Transmit(&huart3, reTxData, 12, 1);
-			key_R.bit = 0;
-		}
 	}
 }
 
@@ -81,33 +87,21 @@ void display_Task(void const * argument)
 		{
 			case 1:
 			{
-				if(page != 1)
-				{
-					oled_clear(Pen_Clear);
-					page = 1;
-				}
+				pageClean(page, 1);
 				display_refereeSystem();
 				break;
 			}
 				
 			case 2:
 			{
-				if(page != 2)
-				{
-					oled_clear(Pen_Clear);
-					page = 2;
-				}
+				pageClean(page, 2);
 				display_moto6020();
 				break;
 			}
 			
 			case 3:
 			{
-				if(page != 3)
-				{
-					oled_clear(Pen_Clear);
-					page = 3;
-				}
+				pageClean(page, 3);
 				display_rc();
 				break;
 			}
@@ -115,5 +109,3 @@ void display_Task(void const * argument)
 		oled_refresh_gram();
 	}
 }
-
-

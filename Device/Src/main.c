@@ -42,10 +42,7 @@
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
-#include "oled.h"
-#include "bsp_uart.h"
-#include "bsp_imu.h"
-#include "key.h"
+#include "sysInit.h"
 
 /* USER CODE END Includes */
 
@@ -106,14 +103,7 @@ int main(void)
   MX_TIM12_Init();
 
   /* USER CODE BEGIN 2 */
-  
-	/* open dbus uart receive it */
-	Dbus_USRT_Init();
-	Referee_USRT_Init();
-	oled_init();
-	IOInit();
-	init_quaternion();		
-	mpu_device_init();
+	systemInit();
 	
   /* USER CODE END 2 */
 

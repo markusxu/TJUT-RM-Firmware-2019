@@ -25,16 +25,87 @@
  */
 
 #include "chassisTask.h"
+#include "can.h"
+#include "tim.h"
+#include "bsp_can.h"
+#include "bsp_uart.h"
+#include "pid.h"
+#include "key.h"
+#include "USER_DEFINITION.h"
+#include <math.h>
 
 Move_State	ChassisMoveState = MOVE_NONE;
 
-extern rc_info_t *rc;
+extern rc_info_t rc;
 extern key_state_t *keyboard;
-
-Chassis_TypeDef Chassis1;
 float MAX_WHEEL_SPEED = 6000;
 double rcch[4];
 int16_t Speed[4];
+Chassis_TypeDef Chassis1;
+
+void Chassis_Task(void const * argument)
+{
+	ChassisPIDInit();
+	
+	uint32_t PreviousWakeTime = osKernelSysTick();
+	for(;;)
+	{
+		osDelayUntil(&PreviousWakeTime,CHASSIATASK_DELAY_TIMES);
+		
+		switch (SWstate.value)
+		{						
+			case KEY_OFF_UP:
+			case KEY_OFF_MD:
+			case KEY_OFF_DN:
+				break;
+			
+			case KEY_CL_UP:
+			case KEY_CL_MD:
+			case KEY_CL_DN:
+				for(int i=0; i<4;i++){
+					Speed[i]=0;
+				}
+				Set_M620_Current(Speed);
+				break;
+			
+			case KEY_HL_UP:
+			case KEY_HL_MD:
+				rcch[0] = -rc.ch1*10;
+				rcch[1] = -rc.ch2*10;
+				rcch[2] = -rc.ch3*10;
+				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
+				Set_M620_Current(Speed);
+				break;
+			
+			case KEY_HL_DN:
+			{
+				rcch[1] = keyboard->W*(-3000) + keyboard->S*(3000);
+				rcch[0] = keyboard->D*(-3000) + keyboard->A*(3000);
+				
+				if(keyboard->SHIFT || keyboard->CTRL)
+				{
+					if(keyboard->SHIFT)
+					{
+						rcch[1] *= 2;
+						rcch[0] *= 2;
+					}
+					else if(keyboard->CTRL)
+					{
+						rcch[1] *= 0.5;
+						rcch[0] *= 0.5;
+					}
+				}
+				rcch[2] = -rc.mouse.x*100;
+				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
+				Set_M620_Current(Speed);
+				break;
+			}
+			
+			default:
+				break;
+		}
+	}
+}
 
 void Mecanum_calc(float vx, float vy, float omega, const int each_max_spd, int16_t speed[]){
 	int16_t buf[4];
@@ -138,68 +209,3 @@ void Set_M620_Current(int16_t set_spd[]){
 	osDelay(10);
 
 }
-
-
-
-void Chassis_Task(void const * argument)
-{
-	ChassisPIDInit();
-	
-	for(;;)
-	{
-		switch (SWstate.value)
-		{						
-			case KEY_OFF_UP:
-			case KEY_OFF_MD:
-			case KEY_OFF_DN:
-				break;
-			
-			case KEY_CL_UP:
-			case KEY_CL_MD:
-			case KEY_CL_DN:
-				for(int i=0; i<4;i++){
-					Speed[i]=0;
-				}
-				Set_M620_Current(Speed);
-				break;
-			
-			case KEY_HL_UP:
-			case KEY_HL_MD:
-				rcch[0] = -rc->ch1*10;
-				rcch[1] = -rc->ch2*10;
-				rcch[2] = -rc->ch3*10;
-				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
-				Set_M620_Current(Speed);
-				break;
-			
-			case KEY_HL_DN:
-			{
-				rcch[1] = keyboard->W*(-3000) + keyboard->S*(3000);
-				rcch[0] = keyboard->D*(-3000) + keyboard->A*(3000);
-				
-				if(keyboard->SHIFT || keyboard->CTRL)
-				{
-					if(keyboard->SHIFT)
-					{
-						rcch[1] *= 2;
-						rcch[0] *= 2;
-					}
-					else if(keyboard->CTRL)
-					{
-						rcch[1] *= 0.5;
-						rcch[0] *= 0.5;
-					}
-				}
-				rcch[2] = -rc->mouse.x*100;
-				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
-				Set_M620_Current(Speed);
-				break;
-			}
-			
-			default:
-				break;
-		}
-	}
-}
-
-
