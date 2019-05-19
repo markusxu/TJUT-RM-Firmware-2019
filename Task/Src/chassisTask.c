@@ -95,7 +95,7 @@ void Chassis_Task(void const * argument)
 						rcch[0] *= 0.5;
 					}
 				}
-				rcch[2] = -rc.mouse.x*100;
+				rcch[2] = -rc.mouse.x*200;
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;

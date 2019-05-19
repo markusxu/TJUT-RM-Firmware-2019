@@ -100,6 +100,10 @@ typedef __packed struct
 	uint8_t  frame_tail;
 } pc_info_t;
 
+extern rc_info_t rc;
+extern re_info_t *re;
+extern pc_info_t *pc;
+
 void uart_receive_handler(UART_HandleTypeDef *huart);
 void Dbus_USRT_Init(void);
 void Referee_USRT_Init(void);

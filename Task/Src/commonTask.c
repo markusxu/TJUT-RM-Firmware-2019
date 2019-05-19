@@ -53,7 +53,7 @@ void modeSwitch_Task(void const * argument)
 	{
 		if(SWstate.value == KEY_HL_DN)
 		{
-			
+				
 		}
 	}
 }

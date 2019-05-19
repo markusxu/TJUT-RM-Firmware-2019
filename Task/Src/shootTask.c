@@ -25,6 +25,7 @@
  */
  
 #include "shootTask.h"
+#include "bsp_uart.h"
 #include "referee_info.h"
 #include "key.h"
 
@@ -43,7 +44,9 @@ void shoot_Task(void const * argument)
 	{
 		osDelayUntil(&PreviousWakeTime,SHOOTTAKS_DELAY_TIMES);
 		
-		if(reRxData.robot_state.shooter_heat0_cooling_limit == 0) reRxData.robot_state.shooter_heat0_cooling_limit = 240;
+		if(reRxData.robot_state.shooter_heat0_cooling_limit != 240 &&
+       reRxData.robot_state.shooter_heat0_cooling_limit != 360 &&
+       reRxData.robot_state.shooter_heat0_cooling_limit != 480) reRxData.robot_state.shooter_heat0_cooling_limit = 240;
 		
 		if(SWstate.sw_buff.R == 2 && SWstate.sw_buff.L != 2)
 		{
@@ -70,18 +73,57 @@ void shoot_Task(void const * argument)
 				pokeSpeed = shootFequence(4);
 			}
 		} 
-		else
-		{
+    
+		else if(SWstate.sw_buff.R == 2 && SWstate.sw_buff.L == 2)
+    {
+      if(rc.mouse.press_r)
+      {
+        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
+        {
+          if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
+          {
+            TIM2->CCR1 = 1000;
+            TIM2->CCR2 = 1000;
+            pokeSpeed = shootFequence(0);
+            if(!coolingStatue) coolingStatue = 1;
+          }
+          else
+          {
+            TIM2->CCR1 = 1300;
+            TIM2->CCR2 = 1300;
+            if(rc.mouse.press_l)
+              pokeSpeed = shootFequence(2);
+          }
+        }
+        else
+        {
+          TIM2->CCR1 = 1650;
+          TIM2->CCR2 = 1650;
+          if(rc.mouse.press_l)
+            pokeSpeed = 308*4;
+        }
+      }
+      else
+      {
+        TIM2->CCR1 = 1000;
+        TIM2->CCR2 = 1000;
+        pokeSpeed = shootFequence(0);
+      }
+    }
+    
+    else
+    {
 			TIM2->CCR1 = 1000;
 			TIM2->CCR2 = 1000;
 			pokeSpeed = shootFequence(0);
 		}
+    
 		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.5)
 			coolingStatue = 0;
 	}		
 }
 
-unsigned short int shootFequence(uint8_t Hz)
+unsigned short int shootFequence(float Hz)
 {
 	return 308*Hz;
 }

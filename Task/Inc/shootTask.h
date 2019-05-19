@@ -34,6 +34,6 @@
 #define SHOOTTAKS_DELAY_TIMES 5
 
 void shoot_Task(void const * argument);
-unsigned short int shootFequence(uint8_t Hz);
+unsigned short int shootFequence(float Hz);
 
 #endif
