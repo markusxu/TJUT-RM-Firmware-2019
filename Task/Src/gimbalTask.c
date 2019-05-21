@@ -68,7 +68,7 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_MD:
 			case KEY_HL_MD:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 1100;
+				TIM2->CCR3 = 1000;
 				LASER_OFF;
 				break;
 			
@@ -82,7 +82,7 @@ void Gimbal_Task(void const * argument)
 			case KEY_HL_DN:
 			{
         if(keyboard->E)
-          TIM2->CCR3 = 1100;
+          TIM2->CCR3 = 1000;
         if(keyboard->R)
           TIM2->CCR3 = 1600;
         

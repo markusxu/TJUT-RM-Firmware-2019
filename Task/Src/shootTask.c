@@ -31,8 +31,7 @@
 
 extern referee_data_t reRxData;
 
-uint16_t cc = 1650;
-
+uint8_t pokemode = 0;
 uint16_t pokeSpeed = 0;
 
 void shoot_Task(void const * argument)
@@ -45,6 +44,9 @@ void shoot_Task(void const * argument)
 	for(;;)
 	{
 		osDelayUntil(&PreviousWakeTime,SHOOTTAKS_DELAY_TIMES);
+    
+    if(keyboard->F) pokemode = 1;
+    if(keyboard->G) pokemode = 0;
 		
 		if(reRxData.robot_state.shooter_heat0_cooling_limit != 240 &&
        reRxData.robot_state.shooter_heat0_cooling_limit != 360 &&
@@ -56,8 +58,8 @@ void shoot_Task(void const * argument)
 			{
 				if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
 				{
-					TIM2->CCR1 = 1000;
-					TIM2->CCR2 = 1000;
+					TIM2->CCR1 = 1250;
+					TIM2->CCR2 = 1250;
 					pokeSpeed = shootFequence(0);
 					if(!coolingStatue) coolingStatue = 1;
 				}
@@ -70,39 +72,40 @@ void shoot_Task(void const * argument)
 			}
 			else
 			{
-				TIM2->CCR1 = cc;
-				TIM2->CCR2 = cc;
-				pokeSpeed = shootFequence(4.5);
+				TIM2->CCR1 = 1650;
+				TIM2->CCR2 = 1650;
+				pokeSpeed = shootFequence(4);
 			}
 		} 
     
 		else if(SWstate.sw_buff.R == 2 && SWstate.sw_buff.L == 2)
     {
-      if(rc.mouse.press_r)
+      if(pokemode/*rc.mouse.press_r*/)
       {
-        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
-        {
+//        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
+//        {
           if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
           {
-            TIM2->CCR1 = 1000;
-            TIM2->CCR2 = 1000;
+            TIM2->CCR1 = 1400;
+            TIM2->CCR2 = 1400;
             pokeSpeed = shootFequence(0);
             if(!coolingStatue) coolingStatue = 1;
           }
+          /*
           else
           {
-            TIM2->CCR1 = 1250;
-            TIM2->CCR2 = 1250;
+            TIM2->CCR1 = 1400;
+            TIM2->CCR2 = 1400;
             if(rc.mouse.press_l)
               pokeSpeed = shootFequence(2);
           }
-        }
+        }*/
         else
         {
-          TIM2->CCR1 = 1600;//1400
-          TIM2->CCR2 = 1600;//1400
+          TIM2->CCR1 = 1500;//1400
+          TIM2->CCR2 = 1500;//1400
           if(rc.mouse.press_l)
-            pokeSpeed = 308*4;
+            pokeSpeed = shootFequence(3.8);
         }
       }
       else
