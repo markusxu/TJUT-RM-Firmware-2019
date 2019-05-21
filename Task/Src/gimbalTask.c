@@ -56,7 +56,7 @@ void Gimbal_Task(void const * argument)
 		switch (SWstate.value)
 		{
 			case KEY_OFF_UP:
-				Set_Gimbal_Current(0, 450, pokeSpeed);
+//				Set_Gimbal_Current(0, 450, pokeSpeed);
 				break;
 			case KEY_CL_UP:
 			case KEY_HL_UP:
@@ -68,23 +68,23 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_MD:
 			case KEY_HL_MD:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 900;
+				TIM2->CCR3 = 1000;
 				LASER_OFF;
 				break;
 			
 			case KEY_OFF_DN:
 			case KEY_CL_DN:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 1500;
+				TIM2->CCR3 = 1600;
 				LASER_ON;
 				break;
 			
 			case KEY_HL_DN:
 			{
-        if(key_R.bit)
-          TIM2->CCR3 = 1500;
-        else
-          TIM2->CCR3 = 900;
+        if(keyboard->E)
+          TIM2->CCR3 = 1000;
+        if(keyboard->R)
+          TIM2->CCR3 = 1600;
         
 				mouse_move_angle = mouse_move_angle + rc.mouse.y;
 				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
