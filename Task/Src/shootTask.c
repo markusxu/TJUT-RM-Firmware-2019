@@ -31,6 +31,8 @@
 
 extern referee_data_t reRxData;
 
+uint16_t cc = 1650;
+
 uint16_t pokeSpeed = 0;
 
 void shoot_Task(void const * argument)
@@ -61,16 +63,16 @@ void shoot_Task(void const * argument)
 				}
 				else
 				{
-					TIM2->CCR1 = 1300;
-					TIM2->CCR2 = 1300;
+					TIM2->CCR1 = 1250;
+					TIM2->CCR2 = 1250;
 					pokeSpeed = shootFequence(2);
 				}
 			}
 			else
 			{
-				TIM2->CCR1 = 1700;
-				TIM2->CCR2 = 1700;
-				pokeSpeed = shootFequence(4);
+				TIM2->CCR1 = cc;
+				TIM2->CCR2 = cc;
+				pokeSpeed = shootFequence(4.5);
 			}
 		} 
     
@@ -89,16 +91,16 @@ void shoot_Task(void const * argument)
           }
           else
           {
-            TIM2->CCR1 = 1300;
-            TIM2->CCR2 = 1300;
+            TIM2->CCR1 = 1250;
+            TIM2->CCR2 = 1250;
             if(rc.mouse.press_l)
               pokeSpeed = shootFequence(2);
           }
         }
         else
         {
-          TIM2->CCR1 = 1650;
-          TIM2->CCR2 = 1650;
+          TIM2->CCR1 = 1600;//1400
+          TIM2->CCR2 = 1600;//1400
           if(rc.mouse.press_l)
             pokeSpeed = 308*4;
         }
