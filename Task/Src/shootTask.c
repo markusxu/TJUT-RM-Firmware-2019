@@ -72,8 +72,8 @@ void shoot_Task(void const * argument)
 			}
 			else
 			{
-				TIM2->CCR1 = 1650;
-				TIM2->CCR2 = 1650;
+				TIM2->CCR1 = 1300;
+				TIM2->CCR2 = 1300;
 				pokeSpeed = shootFequence(4);
 			}
 		} 
@@ -82,16 +82,12 @@ void shoot_Task(void const * argument)
     {
       if(pokemode/*rc.mouse.press_r*/)
       {
-//        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
-//        {
-          if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
-          {
-            TIM2->CCR1 = 1400;
-            TIM2->CCR2 = 1400;
-            pokeSpeed = shootFequence(0);
-            if(!coolingStatue) coolingStatue = 1;
-          }
-          /*
+        
+/******************************************************************
+        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.8 || coolingStatue)
+        {
+
+
           else
           {
             TIM2->CCR1 = 1400;
@@ -99,13 +95,24 @@ void shoot_Task(void const * argument)
             if(rc.mouse.press_l)
               pokeSpeed = shootFequence(2);
           }
-        }*/
+        }
+*****************************************************************/
+        
+        if(reRxData.power_heat_data.shooter_heat0 >= reRxData.robot_state.shooter_heat0_cooling_limit*0.95 || coolingStatue)
+        {
+          TIM2->CCR1 = 1250;
+          TIM2->CCR2 = 1250;
+          pokeSpeed = shootFequence(0);
+          if(!coolingStatue) coolingStatue = 1;
+        }
         else
         {
-          TIM2->CCR1 = 1500;//1400
-          TIM2->CCR2 = 1500;//1400
+          TIM2->CCR1 = 1300;//1400
+          TIM2->CCR2 = 1300;//1400
           if(rc.mouse.press_l)
             pokeSpeed = shootFequence(3.8);
+          else
+            pokeSpeed = shootFequence(0);
         }
       }
       else
@@ -123,7 +130,7 @@ void shoot_Task(void const * argument)
 			pokeSpeed = shootFequence(0);
 		}
     
-		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.5)
+		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.8)
 			coolingStatue = 0;
 	}		
 }

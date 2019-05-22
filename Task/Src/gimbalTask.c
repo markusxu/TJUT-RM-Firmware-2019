@@ -68,7 +68,7 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_MD:
 			case KEY_HL_MD:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 1000;
+				TIM2->CCR3 = 950;
 				LASER_OFF;
 				break;
 			
@@ -113,8 +113,12 @@ void GimbalPIDInit(void){
 
 	PID_struct_init(&pid_yaw, POSITION_PID, 30000, 5000,
 									GIMBAL_YAW_KP, GIMBAL_YAW_KI, GIMBAL_YAW_KD);
+  
 	PID_struct_init(&pid_pit, POSITION_PID, 30000, 5000,
 									GIMBAL_PIT_KP, GIMBAL_PIT_KI, GIMBAL_PIT_KD);
+  PID_struct_init(&pid_pit_omg, POSITION_PID, 4096, 30,
+									1.5f, 0.1f, 0.0f);
+  
 	PID_struct_init(&pid_poke, POSITION_PID, 16384, 5000,
 									1.5f,	0.1f,	0.0f);
 	HAL_Delay(100);
@@ -138,7 +142,10 @@ void GimbalInit(void){
 void Set_Gimbal_Current(int16_t yaw_target_spd, int16_t pit_target_spd, int16_t set_spd){
 	
 	pid_calc(&pid_yaw, moto_yaw.real_angle + moto_yaw.offset_angle, yaw_target_spd);
-	pid_calc(&pid_pit, moto_pit.real_angle + moto_pit.offset_angle, pit_target_spd);
+  
+	pid_calc(&pid_pit_omg, moto_pit.real_angle + moto_pit.offset_angle, pit_target_spd);
+  pid_calc(&pid_pit, moto_pit.real_current, pid_pit_omg.pos_out);
+  
 	pid_calc(&pid_poke, moto_poke.speed_rpm, set_spd);
 
 	set_moto_current(&hcan1, 
