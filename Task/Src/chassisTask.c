@@ -170,7 +170,7 @@ void ChassisPIDInit(void){
 	
 	for(int i=0; i<4; i++)
 	{
-		PID_struct_init(&pid_spd[i], POSITION_PID, 16000, 2000,
+		PID_struct_init(&pid_spd[i], POSITION_PID, 3500, 2000,
 									CHASSIS_KP,	CHASSIS_KI,	CHASSIS_KD	);  //4 motos angular rate closeloop.
 	}
 	

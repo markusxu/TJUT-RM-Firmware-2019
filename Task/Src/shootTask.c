@@ -123,7 +123,7 @@ void shoot_Task(void const * argument)
 			pokeSpeed = shootFequence(0);
 		}
     
-		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.5)
+		if(coolingStatue && reRxData.power_heat_data.shooter_heat0 <= reRxData.robot_state.shooter_heat0_cooling_limit*0.8)
 			coolingStatue = 0;
 	}		
 }
