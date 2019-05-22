@@ -115,7 +115,7 @@ void GimbalPIDInit(void){
 									GIMBAL_YAW_KP, GIMBAL_YAW_KI, GIMBAL_YAW_KD);
   
 	PID_struct_init(&pid_pit, POSITION_PID, 4096, 4096,
-									1.5f, 0.0f, 15.0f);
+									3.3f, 0.1f, 10.0f);
   PID_struct_init(&pid_pit_omg, POSITION_PID, 30000, 5000,
 									30.0f, 0.1f, 0.0f);
   
