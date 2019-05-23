@@ -118,7 +118,7 @@ void Mecanum_calc(float vx, float vy, float omega, const int each_max_spd, int16
 void ChassisPIDInit(void);
 void Set_M620_Current(int16_t set_spd[]);
 void Chassis_Task(void const *argu);
-
+void ALLtoward_Mode(uint16_t correctAngle);
 
 extern Chassis_TypeDef Chassis1;
 

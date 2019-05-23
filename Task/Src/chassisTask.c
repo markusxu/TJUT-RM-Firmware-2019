@@ -43,6 +43,10 @@ double rcch[4];
 int16_t Speed[4];
 Chassis_TypeDef Chassis1;
 
+  double sindata,cosdata,rcdata,rcangle;
+  float CHout,gimbalangle;
+  uint16_t cca;
+
 void Chassis_Task(void const * argument)
 {
 	ChassisPIDInit();
@@ -73,6 +77,7 @@ void Chassis_Task(void const * argument)
 				rcch[0] = -rc.ch1*10;
 				rcch[1] = -rc.ch2*10;
 				rcch[2] = -rc.ch3*10;
+        ALLtoward_Mode(6835);
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;
@@ -96,6 +101,7 @@ void Chassis_Task(void const * argument)
 					}
 				}
 				rcch[2] = -rc.mouse.x*200;
+        ALLtoward_Mode(6835);
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;
@@ -208,4 +214,42 @@ void Set_M620_Current(int16_t set_spd[]){
 
 	osDelay(10);
 
+}
+
+void ALLtoward_Mode(uint16_t correctAngle)
+{
+
+	
+	cca = (correctAngle >= 4096 )?
+						    (((moto_yaw.angle <= 8192 && moto_yaw.angle > correctAngle-4096)?(moto_yaw.angle):(moto_yaw.angle+8192)) - correctAngle):
+                (((moto_yaw.angle <= 8192 && moto_yaw.angle > correctAngle+4096)?(moto_yaw.angle-8192):(moto_yaw.angle)) - correctAngle);
+	
+	
+	gimbalangle=cca*(180/4096.00);
+	
+	if(rcch[0]==0)
+	{
+		double angle=((gimbalangle)*PI)/180;
+		cosdata=cos(angle);
+    sindata=sin(angle);
+  
+    rcch[0]=-rcch[1]*sindata;
+    rcch[1]=rcch[1]*cosdata;
+	}
+	else
+	{
+    rcdata=atan(rcch[1]/ rcch[0]);
+    cosdata=cos(rcdata);  
+
+    CHout=rcch[0]/cosdata;
+
+    rcangle=rcdata*180/3.1415;
+
+    double angle=((	rcangle+gimbalangle)*PI)/180;
+    cosdata=cos(angle);
+    sindata=sin(angle);
+
+    rcch[0]=CHout*cosdata;
+    rcch[1]=CHout*sindata;
+	}
 }
