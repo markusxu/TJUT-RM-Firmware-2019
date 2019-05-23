@@ -86,9 +86,9 @@ void Gimbal_Task(void const * argument)
         if(keyboard->R)
           TIM2->CCR3 = 1600;
         
-				mouse_move_angle = mouse_move_angle + rc.mouse.y*2;
+				mouse_move_angle = mouse_move_angle + rc.mouse.y*1.3;
 				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
-				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
+				(mouse_move_angle<-700)?(mouse_move_angle=-700):(mouse_move_angle);
 				
 				/***********************************************************
 				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
