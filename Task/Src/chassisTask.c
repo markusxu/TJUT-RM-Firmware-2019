@@ -79,8 +79,8 @@ void Chassis_Task(void const * argument)
 			
 			case KEY_HL_DN:
 			{
-				rcch[1] = keyboard->W*(-3000) + keyboard->S*(3000);
-				rcch[0] = keyboard->D*(-3000) + keyboard->A*(3000);
+				rcch[1] = keyboard->W*(-4000) + keyboard->S*(4000);
+				rcch[0] = keyboard->D*(-4000) + keyboard->A*(4000);
 				
 				if(keyboard->SHIFT || keyboard->CTRL)
 				{
