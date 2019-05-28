@@ -147,6 +147,8 @@ static int Key_GetStatusInit(Key_STATUS* key_t,
 															uint32_t countMIN,
 															uint32_t countMAX);
 
+
+extern key_state_t *keyboard;
 extern Key_STATUS bottom;
 extern Key_STATUS key_X,key_R,key_E;
 extern union SW_Reg SWstate;

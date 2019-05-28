@@ -26,19 +26,19 @@
 
 #define CHASSIS_KP 1.5f
 #define CHASSIS_KI 0.1f
-#define CHASSIS_KD 0.0f
+#define CHASSIS_KD 0.1f
 
-#define GIMBAL_YAW_KP  101.5f
-#define GIMBAL_YAW_KI  0.1f
-#define GIMBAL_YAW_KD  425.5f
+#define GIMBAL_YAW_KP  120.5f
+#define GIMBAL_YAW_KI  0.4f
+#define GIMBAL_YAW_KD  460.5f
 
-#define GIMBAL_PIT_KP  195.6f
-#define GIMBAL_PIT_KI  1.4f
-#define GIMBAL_PIT_KD  350.8f
+#define GIMBAL_PIT_KP  165.6f
+#define GIMBAL_PIT_KI  1.1f
+#define GIMBAL_PIT_KD  371.2f
 
 
 #ifdef IF_NO1
-#define YAW_CORRECTING_ANGLE 0
+#define YAW_CORRECTING_ANGLE 5461
 #define PIT_CORRECTING_ANGLE 2730
 #else
 #define YAW_CORRECTING_ANGLE 6835

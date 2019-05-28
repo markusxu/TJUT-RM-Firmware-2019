@@ -33,7 +33,7 @@
 #include "pid.h"
 #include "mytype.h"
 #include <math.h>
-//#include "cmsis_os.h"
+#include "cmsis_os.h"
 
 #define ABS(x)		((x>0)? (x): (-x)) 
 
@@ -191,7 +191,7 @@ void PID_struct_init(
 pid_t pid_pit = {0};
 pid_t pid_yaw = {0};
 //pid_t pid_yaw_omg = {0};//角速度环
-//pid_t pid_pit_omg = {0};//角速度环
+pid_t pid_pit_omg = {0};//角速度环
 //pid_t pid_yaw_alfa = {0};		//angle acce
 
 //pid_t pid_chassis_angle={0};

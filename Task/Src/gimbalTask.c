@@ -37,6 +37,7 @@
 extern rc_info_t rc;
 extern uint16_t pokeSpeed;
 
+int16_t tilt_angle;
 int16_t mouse_move_angle;
 uint8_t mouse_click_shoot;
 
@@ -56,7 +57,7 @@ void Gimbal_Task(void const * argument)
 		switch (SWstate.value)
 		{
 			case KEY_OFF_UP:
-				Set_Gimbal_Current(0, 450, pokeSpeed);
+//				Set_Gimbal_Current(0, 450, pokeSpeed);
 				break;
 			case KEY_CL_UP:
 			case KEY_HL_UP:
@@ -68,36 +69,31 @@ void Gimbal_Task(void const * argument)
 			case KEY_CL_MD:
 			case KEY_HL_MD:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 900;
+				TIM2->CCR3 = 950;
 				LASER_OFF;
 				break;
 			
 			case KEY_OFF_DN:
 			case KEY_CL_DN:
 				Set_Gimbal_Current(rc.sw*2, -rc.ch4, pokeSpeed);
-				TIM2->CCR3 = 1500;
+				TIM2->CCR3 = 1600;
 				LASER_ON;
 				break;
 			
 			case KEY_HL_DN:
 			{
-        if(key_R.bit)
-          TIM2->CCR3 = 1500;
-        else
-          TIM2->CCR3 = 900;
+        if(keyboard->G)
+          TIM2->CCR3 = 950;
+        if(keyboard->R)
+          TIM2->CCR3 = 1600;
         
-				mouse_move_angle = mouse_move_angle + rc.mouse.y;
-				(mouse_move_angle> 500)?(mouse_move_angle= 500):(mouse_move_angle);
-				(mouse_move_angle<-500)?(mouse_move_angle=-500):(mouse_move_angle);
+				mouse_move_angle = mouse_move_angle + rc.mouse.y*1.3;
+				(mouse_move_angle> 400)?(mouse_move_angle= 400):(mouse_move_angle);
+				(mouse_move_angle<-700)?(mouse_move_angle=-700):(mouse_move_angle);
+        
+        tilt_angle = keyboard->G*1024 - keyboard->E*1024;
 				
-				/***********************************************************
-				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
-				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
-				***********************************************************/
-				
-				/*(rc.mouse.press_r && rc.mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);*/
-				
-				Set_Gimbal_Current(rc.sw, mouse_move_angle, pokeSpeed);
+				Set_Gimbal_Current(tilt_angle, mouse_move_angle, pokeSpeed);
 				
 				if(key_X.bit){LASER_ON}else LASER_OFF;
 				break;
@@ -113,8 +109,12 @@ void GimbalPIDInit(void){
 
 	PID_struct_init(&pid_yaw, POSITION_PID, 30000, 5000,
 									GIMBAL_YAW_KP, GIMBAL_YAW_KI, GIMBAL_YAW_KD);
-	PID_struct_init(&pid_pit, POSITION_PID, 30000, 5000,
-									GIMBAL_PIT_KP, GIMBAL_PIT_KI, GIMBAL_PIT_KD);
+  
+	PID_struct_init(&pid_pit, POSITION_PID, 4096, 4096,
+									3.3f, 0.1f, 10.0f);
+  PID_struct_init(&pid_pit_omg, POSITION_PID, 30000, 5000,
+									30.0f, 0.1f, 0.0f);
+  
 	PID_struct_init(&pid_poke, POSITION_PID, 16384, 5000,
 									1.5f,	0.1f,	0.0f);
 	HAL_Delay(100);
@@ -138,12 +138,15 @@ void GimbalInit(void){
 void Set_Gimbal_Current(int16_t yaw_target_spd, int16_t pit_target_spd, int16_t set_spd){
 	
 	pid_calc(&pid_yaw, moto_yaw.real_angle + moto_yaw.offset_angle, yaw_target_spd);
+  
 	pid_calc(&pid_pit, moto_pit.real_angle + moto_pit.offset_angle, pit_target_spd);
+  pid_calc(&pid_pit_omg, moto_pit.real_current, pid_pit.pos_out);
+  
 	pid_calc(&pid_poke, moto_poke.speed_rpm, set_spd);
 
 	set_moto_current(&hcan1, 
 									 pid_yaw.pos_out,
-									 pid_pit.pos_out, 
+									 pid_pit_omg.pos_out, 
 									 pid_poke.pos_out, 
 									 0, 0x01);
 

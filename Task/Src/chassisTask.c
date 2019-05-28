@@ -43,6 +43,10 @@ double rcch[4];
 int16_t Speed[4];
 Chassis_TypeDef Chassis1;
 
+  double sindata,cosdata,rcdata,rcangle;
+  float CHout,gimbalangle;
+  uint16_t cca;
+
 void Chassis_Task(void const * argument)
 {
 	ChassisPIDInit();
@@ -73,14 +77,15 @@ void Chassis_Task(void const * argument)
 				rcch[0] = -rc.ch1*10;
 				rcch[1] = -rc.ch2*10;
 				rcch[2] = -rc.ch3*10;
+        ALLtoward_Mode(6835);
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;
 			
 			case KEY_HL_DN:
 			{
-				rcch[1] = keyboard->W*(-3000) + keyboard->S*(3000);
-				rcch[0] = keyboard->D*(-3000) + keyboard->A*(3000);
+				rcch[1] = keyboard->W*(-3800) + keyboard->S*(3800);
+				rcch[0] = keyboard->D*(-3800) + keyboard->A*(3800);
 				
 				if(keyboard->SHIFT || keyboard->CTRL)
 				{
@@ -95,7 +100,8 @@ void Chassis_Task(void const * argument)
 						rcch[0] *= 0.5;
 					}
 				}
-				rcch[2] = -rc.mouse.x*200;
+				rcch[2] = -rc.mouse.x*150;
+        ALLtoward_Mode(6835);
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);
 				break;
@@ -170,7 +176,7 @@ void ChassisPIDInit(void){
 	
 	for(int i=0; i<4; i++)
 	{
-		PID_struct_init(&pid_spd[i], POSITION_PID, 3000, 2000,
+		PID_struct_init(&pid_spd[i], POSITION_PID, 3500, 2000,
 									CHASSIS_KP,	CHASSIS_KI,	CHASSIS_KD	);  //4 motos angular rate closeloop.
 	}
 	
@@ -208,4 +214,42 @@ void Set_M620_Current(int16_t set_spd[]){
 
 	osDelay(10);
 
+}
+
+void ALLtoward_Mode(uint16_t correctAngle)
+{
+
+	
+	cca = (correctAngle >= 4096 )?
+						    (((moto_yaw.angle <= 8192 && moto_yaw.angle > correctAngle-4096)?(moto_yaw.angle):(moto_yaw.angle+8192)) - correctAngle):
+                (((moto_yaw.angle <= 8192 && moto_yaw.angle > correctAngle+4096)?(moto_yaw.angle-8192):(moto_yaw.angle)) - correctAngle);
+	
+	
+	gimbalangle=cca*(180/4096.00);
+	
+	if(rcch[0]==0)
+	{
+		double angle=((gimbalangle)*PI)/180;
+		cosdata=cos(angle);
+    sindata=sin(angle);
+  
+    rcch[0]=-rcch[1]*sindata;
+    rcch[1]=rcch[1]*cosdata;
+	}
+	else
+	{
+    rcdata=atan(rcch[1]/ rcch[0]);
+    cosdata=cos(rcdata);  
+
+    CHout=rcch[0]/cosdata;
+
+    rcangle=rcdata*180/3.1415;
+
+    double angle=((	rcangle+gimbalangle)*PI)/180;
+    cosdata=cos(angle);
+    sindata=sin(angle);
+
+    rcch[0]=CHout*cosdata;
+    rcch[1]=CHout*sindata;
+	}
 }
