@@ -46,7 +46,7 @@ void shoot_Task(void const * argument)
 		osDelayUntil(&PreviousWakeTime,SHOOTTAKS_DELAY_TIMES);
     
     if(keyboard->F) pokemode = 1;
-    if(keyboard->G) pokemode = 0;
+    if(keyboard->B) pokemode = 0;
 		
 		if(reRxData.robot_state.shooter_heat0_cooling_limit != 240 &&
        reRxData.robot_state.shooter_heat0_cooling_limit != 360 &&

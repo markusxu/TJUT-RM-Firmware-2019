@@ -37,6 +37,7 @@
 extern rc_info_t rc;
 extern uint16_t pokeSpeed;
 
+int16_t tilt_angle;
 int16_t mouse_move_angle;
 uint8_t mouse_click_shoot;
 
@@ -81,7 +82,7 @@ void Gimbal_Task(void const * argument)
 			
 			case KEY_HL_DN:
 			{
-        if(keyboard->E)
+        if(keyboard->G)
           TIM2->CCR3 = 950;
         if(keyboard->R)
           TIM2->CCR3 = 1600;
@@ -89,15 +90,10 @@ void Gimbal_Task(void const * argument)
 				mouse_move_angle = mouse_move_angle + rc.mouse.y*1.3;
 				(mouse_move_angle> 400)?(mouse_move_angle= 400):(mouse_move_angle);
 				(mouse_move_angle<-700)?(mouse_move_angle=-700):(mouse_move_angle);
+        
+        tilt_angle = keyboard->G*1024 - keyboard->E*1024;
 				
-				/***********************************************************
-				if(rc->mouse.press_r){TIM2->CCR1 = 1500; TIM2->CCR2 = 1500;} 
-				else                 {TIM2->CCR1 = 1000; TIM2->CCR2 = 1000;}
-				***********************************************************/
-				
-				/*(rc.mouse.press_r && rc.mouse.press_l)?(mouse_click_shoot = 10):(mouse_click_shoot = 0);*/
-				
-				Set_Gimbal_Current(rc.sw, mouse_move_angle, pokeSpeed);
+				Set_Gimbal_Current(tilt_angle, mouse_move_angle, pokeSpeed);
 				
 				if(key_X.bit){LASER_ON}else LASER_OFF;
 				break;
