@@ -28,9 +28,9 @@
 #define CHASSIS_KI 0.1f
 #define CHASSIS_KD 0.1f
 
-#define GIMBAL_YAW_KP  100.0f
-#define GIMBAL_YAW_KI  0.1f
-#define GIMBAL_YAW_KD  160.0f
+#define GIMBAL_YAW_KP  50.0f
+#define GIMBAL_YAW_KI  -40.0f
+#define GIMBAL_YAW_KD  55.0f
 
 #define GIMBAL_PIT_KP  3.0f
 #define GIMBAL_PIT_KI  0.0f
