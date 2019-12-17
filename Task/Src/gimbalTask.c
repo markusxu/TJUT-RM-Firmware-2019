@@ -110,10 +110,10 @@ void GimbalPIDInit(void){
 	PID_struct_init(&pid_yaw, POSITION_PID, 30000, 5000,
 									GIMBAL_YAW_KP, GIMBAL_YAW_KI, GIMBAL_YAW_KD);
   
-	PID_struct_init(&pid_pit, POSITION_PID, 4096, 4096,
-									3.3f, 0.1f, 10.0f);
-  PID_struct_init(&pid_pit_omg, POSITION_PID, 30000, 5000,
-									30.0f, 0.1f, 0.0f);
+	PID_struct_init(&pid_pit, POSITION_PID, 30000, 4096,
+									100.0f, 0.1f, 20.0f);
+  //PID_struct_init(&pid_pit_omg, POSITION_PID, 30000, 5000,
+		//							3.0f, 0.0f, 1.0f);
   
 	PID_struct_init(&pid_poke, POSITION_PID, 16384, 5000,
 									1.5f,	0.1f,	0.0f);
@@ -140,13 +140,13 @@ void Set_Gimbal_Current(int16_t yaw_target_spd, int16_t pit_target_spd, int16_t 
 	pid_calc(&pid_yaw, moto_yaw.real_angle + moto_yaw.offset_angle, yaw_target_spd);
   
 	pid_calc(&pid_pit, moto_pit.real_angle + moto_pit.offset_angle, pit_target_spd);
-  pid_calc(&pid_pit_omg, moto_pit.real_current, pid_pit.pos_out);
+  //pid_calc(&pid_pit_omg, moto_pit.real_current, pid_pit.pos_out);
   
 	pid_calc(&pid_poke, moto_poke.speed_rpm, set_spd);
 
 	set_moto_current(&hcan1, 
 									 pid_yaw.pos_out,
-									 pid_pit_omg.pos_out, 
+									 pid_pit.pos_out, 
 									 pid_poke.pos_out, 
 									 0, 0x01);
 
