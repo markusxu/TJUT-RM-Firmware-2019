@@ -74,9 +74,9 @@ void Chassis_Task(void const * argument)
 			
 			case KEY_HL_UP:
 			case KEY_HL_MD:
-				rcch[0] = -rc.ch1*10;
-				rcch[1] = -rc.ch2*10;
-				rcch[2] = -rc.ch3*10;
+				rcch[0] = -rc.ch1*9;
+				rcch[1] = -rc.ch2*9;
+				rcch[2] = -rc.ch3*9;
         ALLtoward_Mode(6835);
 				Mecanum_calc(rcch[0], rcch[1], rcch[2], MAX_WHEEL_SPEED, Speed);
 				Set_M620_Current(Speed);

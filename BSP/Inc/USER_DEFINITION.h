@@ -24,9 +24,9 @@
 
 #define IF_NO1
 
-#define CHASSIS_KP 1.5f
-#define CHASSIS_KI 0.1f
-#define CHASSIS_KD 0.1f
+#define CHASSIS_KP 10.0f
+#define CHASSIS_KI 0.0f
+#define CHASSIS_KD 0.5f
 
 #define GIMBAL_YAW_KP  50.0f
 #define GIMBAL_YAW_KI  -40.0f
