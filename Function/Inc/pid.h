@@ -78,10 +78,10 @@ typedef struct __pid_t
                     float d);
     void (*f_pid_reset)(struct __pid_t *pid, float p, float i, float d);		//pid三个参数修改
 
-}pid_t;
+}pidc_t;
 
 void PID_struct_init(
-    pid_t* pid,
+    pidc_t* pid,
     uint32_t mode,
     uint32_t maxout,
     uint32_t intergral_limit,
@@ -90,23 +90,23 @@ void PID_struct_init(
     float 	ki, 
     float 	kd);
     
-float pid_calc(pid_t* pid, float fdb, float ref);
+float pid_calc(pidc_t* pid, float fdb, float ref);
     
-extern pid_t pid_rol;
-extern pid_t pid_pit;
-extern pid_t pid_yaw;
-extern pid_t pid_pit_omg;
-extern pid_t pid_yaw_omg;	
-extern pid_t pid_spd[4];
-extern pid_t pid_yaw_alfa;
-extern pid_t pid_chassis_angle;
-extern pid_t pid_poke;
-extern pid_t pid_poke_omg;
-extern pid_t pid_imu_tmp;		//imu_temperature
-extern pid_t pid_cali_bby;	//big buff yaw
-extern pid_t pid_cali_bbp;
-extern pid_t pid_omg;
-extern pid_t pid_pos;
+extern pidc_t pid_rol;
+extern pidc_t pid_pit;
+extern pidc_t pid_yaw;
+extern pidc_t pid_pit_omg;
+extern pidc_t pid_yaw_omg;	
+extern pidc_t pid_spd[4];
+extern pidc_t pid_yaw_alfa;
+extern pidc_t pid_chassis_angle;
+extern pidc_t pid_poke;
+extern pidc_t pid_poke_omg;
+extern pidc_t pid_imu_tmp;		//imu_temperature
+extern pidc_t pid_cali_bby;	//big buff yaw
+extern pidc_t pid_cali_bbp;
+extern pidc_t pid_omg;
+extern pidc_t pid_pos;
 
 #endif
 

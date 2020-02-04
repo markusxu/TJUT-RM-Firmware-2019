@@ -47,58 +47,114 @@
 #define PC_BUFLEN      (8)
 #define PC_HUART       huart6 
 
-/** 
-  * @brief  mouse control information
-  */
-typedef __packed struct
-{
-	/* mouse move information */
-	int16_t x;
-	int16_t y;
-	int16_t z;
-	
-	/* mouse move information */
-	uint8_t press_l ;
-	uint8_t press_r;
-} mouse_info_t;
+#ifdef __GNUC__
+  /** 
+    * @brief  mouse control information
+    */
+  typedef struct __packed 
+  {
+    /* mouse move information */
+    int16_t x;
+    int16_t y;
+    int16_t z;
+    
+    /* mouse move information */
+    uint8_t press_l ;
+    uint8_t press_r;
+  } mouse_info_t;
 
-/** 
-  * @brief  remote control information
-  */
-typedef struct
-{
-  /* rocker channel information */
-  int16_t ch1;
-  int16_t ch2;
-  int16_t ch3;
-  int16_t ch4;
+  /** 
+    * @brief  remote control information
+    */
+  typedef struct
+  {
+    /* rocker channel information */
+    int16_t ch1;
+    int16_t ch2;
+    int16_t ch3;
+    int16_t ch4;
 
-  /* left and right lever information */
-  uint8_t sw1;
-  uint8_t sw2;
-	int16_t sw;
-	
-	/* PC control information */
-	mouse_info_t mouse;
-	uint16_t key;
-} rc_info_t;
+    /* left and right lever information */
+    uint8_t sw1;
+    uint8_t sw2;
+    int16_t sw;
+    
+    /* PC control information */
+    mouse_info_t mouse;
+    uint16_t key;
+  } rc_info_t;
 
-typedef __packed struct
-{
-	uint8_t  frame_header[5];
-	uint16_t cmd_id;
-	uint8_t  data[119];
-	uint16_t CRC16;
-} re_info_t;
+  typedef struct __packed 
+  {
+    uint8_t  frame_header[5];
+    uint16_t cmd_id;
+    uint8_t  data[119];
+    uint16_t CRC16;
+  } re_info_t;
 
-typedef __packed struct
-{
-	uint8_t  frame_header;
-	uint16_t yaw_angle;
-	uint16_t pit_angle;
-	uint16_t retain;
-	uint8_t  frame_tail;
-} pc_info_t;
+  typedef struct __packed 
+  {
+    uint8_t  frame_header;
+    uint16_t yaw_angle;
+    uint16_t pit_angle;
+    uint16_t retain;
+    uint8_t  frame_tail;
+  } pc_info_t;
+  
+#elif __CC_ARM
+  /** 
+    * @brief  mouse control information
+    */
+  typedef __packed struct  
+  {
+    /* mouse move information */
+    int16_t x;
+    int16_t y;
+    int16_t z;
+    
+    /* mouse move information */
+    uint8_t press_l ;
+    uint8_t press_r;
+  } mouse_info_t;
+
+  /** 
+    * @brief  remote control information
+    */
+  typedef struct
+  {
+    /* rocker channel information */
+    int16_t ch1;
+    int16_t ch2;
+    int16_t ch3;
+    int16_t ch4;
+
+    /* left and right lever information */
+    uint8_t sw1;
+    uint8_t sw2;
+    int16_t sw;
+    
+    /* PC control information */
+    mouse_info_t mouse;
+    uint16_t key;
+  } rc_info_t;
+
+  typedef __packed struct 
+  {
+    uint8_t  frame_header[5];
+    uint16_t cmd_id;
+    uint8_t  data[119];
+    uint16_t CRC16;
+  } re_info_t;
+
+  typedef __packed struct  
+  {
+    uint8_t  frame_header;
+    uint16_t yaw_angle;
+    uint16_t pit_angle;
+    uint16_t retain;
+    uint8_t  frame_tail;
+  } pc_info_t;
+#endif
 
 extern rc_info_t rc;
 extern re_info_t *re;

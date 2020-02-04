@@ -45,7 +45,7 @@ void abs_limit(float *a, float ABS_MAX){
 }
 /*参数初始化--------------------------------------------------------------*/
 static void pid_param_init(
-    pid_t *pid, 
+    pidc_t *pid, 
     uint32_t mode,
     uint32_t maxout,
     uint32_t intergral_limit,
@@ -64,7 +64,7 @@ static void pid_param_init(
     
 }
 /*中途更改参数设定(调试)------------------------------------------------------------*/
-static void pid_reset(pid_t	*pid, float kp, float ki, float kd)
+static void pid_reset(pidc_t	*pid, float kp, float ki, float kd)
 {
     pid->p = kp;
     pid->i = ki;
@@ -76,7 +76,7 @@ static void pid_reset(pid_t	*pid, float kp, float ki, float kd)
     *@param[in] set： target
     *@param[in] real	measure
     */
-float pid_calc(pid_t* pid, float get, float set){
+float pid_calc(pidc_t* pid, float get, float set){
     pid->get[NOW] = get;
     pid->set[NOW] = set;
     pid->err[NOW] = set - get;	//set - measure
@@ -123,7 +123,7 @@ float pid_calc(pid_t* pid, float get, float set){
     *@param[in] set： target
     *@param[in] real	measure
     */
-float pid_sp_calc(pid_t* pid, float get, float set, float gyro){
+float pid_sp_calc(pidc_t* pid, float get, float set, float gyro){
     pid->get[NOW] = get;
     pid->set[NOW] = set;
     pid->err[NOW] = set - get;	//set - measure
@@ -166,7 +166,7 @@ float pid_sp_calc(pid_t* pid, float get, float set, float gyro){
 }
 /*pid总体初始化-----------------------------------------------------------------*/
 void PID_struct_init(
-    pid_t* pid,
+    pidc_t* pid,
     uint32_t mode,
     uint32_t maxout,
     uint32_t intergral_limit,
@@ -187,26 +187,26 @@ void PID_struct_init(
 }
 
 
-//pid_t pid_rol = {0};
-pid_t pid_pit = {0};
-pid_t pid_yaw = {0};
-//pid_t pid_yaw_omg = {0};//角速度环
-pid_t pid_pit_omg = {0};//角速度环
-//pid_t pid_yaw_alfa = {0};		//angle acce
+//pidc_t pid_rol = {0};
+pidc_t pid_pit = {0};
+pidc_t pid_yaw = {0};
+//pidc_t pid_yaw_omg = {0};//角速度环
+pidc_t pid_pit_omg = {0};//角速度环
+//pidc_t pid_yaw_alfa = {0};		//angle acce
 
-//pid_t pid_chassis_angle={0};
-//pid_t pid_poke = {0};
-//pid_t pid_poke_omg = {0};
-//pid_t pid_imu_tmp;
-//pid_t pid_x;
-//pid_t pid_cali_bby;
-//pid_t pid_cali_bbp;
+//pidc_t pid_chassis_angle={0};
+//pidc_t pid_poke = {0};
+//pidc_t pid_poke_omg = {0};
+//pidc_t pid_imu_tmp;
+//pidc_t pid_x;
+//pidc_t pid_cali_bby;
+//pidc_t pid_cali_bbp;
 
-pid_t pid_omg;
-pid_t pid_pos;
-pid_t pid_spd[4];
+pidc_t pid_omg;
+pidc_t pid_pos;
+pidc_t pid_spd[4];
 
-pid_t pid_poke;
+pidc_t pid_poke;
 
 void pid_test_init(){
 	

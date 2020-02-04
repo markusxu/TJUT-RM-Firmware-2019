@@ -7,8 +7,8 @@
  *  (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of 
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of?
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.?See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
@@ -77,32 +77,62 @@ union SW_Reg{
 	 }sw_buff;
 };
 
-typedef __packed struct 
-{
-	uint16_t W:     1;
-	uint16_t S:     1;
-	uint16_t A:     1;
-	uint16_t D:     1;
-	uint16_t SHIFT: 1;
-	uint16_t CTRL:  1;
-	uint16_t Q:     1;
-	uint16_t E:     1;
-	uint16_t R:     1;
-	uint16_t F:     1;
-	uint16_t G:     1;
-	uint16_t Z:     1;
-	uint16_t X:     1;
-	uint16_t C:     1;
-	uint16_t V:     1;
-	uint16_t B:     1;
-} key_state_t;
+#ifdef __GNUC__
+  typedef struct __packed  
+  {
+    uint16_t W:     1;
+    uint16_t S:     1;
+    uint16_t A:     1;
+    uint16_t D:     1;
+    uint16_t SHIFT: 1;
+    uint16_t CTRL:  1;
+    uint16_t Q:     1;
+    uint16_t E:     1;
+    uint16_t R:     1;
+    uint16_t F:     1;
+    uint16_t G:     1;
+    uint16_t Z:     1;
+    uint16_t X:     1;
+    uint16_t C:     1;
+    uint16_t V:     1;
+    uint16_t B:     1;
+  } key_state_t;
 
-typedef __packed struct 
-{
-		uint8_t L:2;
-		uint8_t R:2;
-		uint8_t Retain:4;
-} switch_tatus_t;
+  typedef struct __packed  
+  {
+      uint8_t L:2;
+      uint8_t R:2;
+      uint8_t Retain:4;
+  } switch_tatus_t;
+
+#elif __CC_ARM
+  typedef __packed struct
+  {
+    uint16_t W:     1;
+    uint16_t S:     1;
+    uint16_t A:     1;
+    uint16_t D:     1;
+    uint16_t SHIFT: 1;
+    uint16_t CTRL:  1;
+    uint16_t Q:     1;
+    uint16_t E:     1;
+    uint16_t R:     1;
+    uint16_t F:     1;
+    uint16_t G:     1;
+    uint16_t Z:     1;
+    uint16_t X:     1;
+    uint16_t C:     1;
+    uint16_t V:     1;
+    uint16_t B:     1;
+  } key_state_t;
+
+  typedef __packed struct  
+  {
+      uint8_t L:2;
+      uint8_t R:2;
+      uint8_t Retain:4;
+  } switch_tatus_t;
+#endif
 
 typedef struct
 {

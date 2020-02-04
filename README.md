@@ -2,20 +2,37 @@
 
 ## 概述
 
+### 最新变动
+
+- 添加了对VS2017的编译和调试支持，即现在可以使用VS进行调试。解决方案文件在（../VS2017）目录下
+- 更改了一个结构体名的冲突： 原变量名 ~~pid_t~~ 更改为 pidc_t
+- 为添加对GCC编译器的支持，部分头文件增加了宏定义；对于GCC编译器 ~~__packed struct~~ 更改为 struct __packed
+
 ### 软件环境
 
- - Toolchain/IDE : MDK-ARM V5
- - package version: STM32Cube FW_F4 V1.19.0
- - FreeRTOS version: 9.0.0
- - CMSIS-RTOS version: 1.02
+For MDK-ARM：
+
+- Toolchain/IDE: MDK-ARM V5
+- Package version: STM32Cube FW_F4 V1.19.0
+- FreeRTOS version: 9.0.0 (portable:RVDS)
+- CMSIS-RTOS version: 1.02
+
+For Visual Studio：
+
+- Toolchain/IDE: Visual Studio 2017 & VisualGDB V5.3
+- VisualGDB Toochains:  ARM toochains (GCC 9.2.1; GDB 8.3.0)
+- VisualGDB Embedded BSPs: STM32 Devices (2019.06)
+- Package version: STM32Cube FW_F4 V1.19.0
+- FreeRTOS version: 9.0.0 (portable:GCC)
+- CMSIS-RTOS version: 1.02
 
 ### 编程规范
 
- - 常量用全大写命名，多个单词之间用下划线链接
- - 变量采用驼峰法命名方式
- - 函数采用组合式命名（现仍在修改部分命名）
- - chassis\_task、gimbal\_task和shoot\_task是强实时控制任务，优先级最高，禁止被其他任务抢占或者阻塞
- - 其余任务以正常优先级进行工作
+- 常量用全大写命名，多个单词之间用下划线链接
+- 变量采用驼峰法命名方式
+- 函数采用组合式命名（现仍在修改部分命名）
+- chassis\_task、gimbal\_task和shoot\_task是强实时控制任务，优先级最高，禁止被其他任务抢占或者阻塞
+- 其余任务以正常优先级进行工作
 
 ### 注意事项
 
@@ -23,11 +40,11 @@
 
 ### 开发板指示灯说明
 
- - 红灯常亮：表示未进入线程
- - 绿灯常亮：已进入线程，且正常运行（此时红灯熄灭，否则为异常）
- - 左边8颗绿灯
-   - 常亮：所有模块正常
-   - 有熄灭的：部分模块初始化异常
+- 红灯常亮：表示未进入线程
+- 绿灯常亮：已进入线程，且正常运行（此时红灯熄灭，否则为异常）
+- 左边8颗绿灯
+  - 常亮：所有模块正常
+  - 有熄灭的：部分模块初始化异常
 
 ## 快速开始
 
@@ -39,15 +56,15 @@
 
 ### 功能模块
 
-#### 测试模式：
+#### 测试模式
 
 提供遥控器基础控制。
 
-#### 比赛模式：
+#### 比赛模式
 
 这种模式下底盘、云台、发射机构受到键盘和鼠标的完全控制，在比赛的时候开启。
 
-#### 操作档位说明：
+#### 操作档位说明
 
 ##### 测试档
 
@@ -108,13 +125,15 @@
 
 1. 主控 MCU：STM32F427IIHx，配置运行频率180MHz
 2. 模块通信方式：CAN，UART；
-   - CAN1：电机电调
-   - UART1：DBus（100000波特率）
-   - UART3：裁判系统（115200波特率、8数据位、1停止位）
-   - UART6：PC通讯（115200波特率、8数据位、1停止位）
-   - SPI1：OLED屏
-   - SPI5：MPU6600
-3. 麦轮安装方式：X型
+
+- CAN1：电机电调
+- UART1：DBus（100000波特率）
+- UART3：裁判系统（115200波特率、8数据位、1停止位）
+- UART6：PC通讯（115200波特率、8数据位、1停止位）
+- SPI1：OLED屏
+- SPI5：MPU6600
+
+1. 麦轮安装方式：X型
 
 ### 协议数据
 
