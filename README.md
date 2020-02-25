@@ -1,6 +1,15 @@
-# TJUT-RM-Firmware
+# TJUT-RM-Firmware-CC2019
 
 ## 概述
+
+### ==注意：该代码已经停止维护==
+
+新的固件正在开发，兼容C++语言的开发，同时架构上也有大量更新，敬请期待！
+
+### 镜像源
+
+- Github：https://github.com/markusxu/TJUT-RM-Firmware-2019
+- Gitee ：https://gitee.com/markusxu/TJUT-RM-Firmware-2019
 
 ### 最新变动
 
