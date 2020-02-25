@@ -1,1 +1,61 @@
-﻿
+﻿  stm32f4xx_hal.c
+  stm32f4xx_hal_adc.c
+  stm32f4xx_hal_adc_ex.c
+  stm32f4xx_hal_can.c
+  stm32f4xx_hal_gpio.c
+  stm32f4xx_hal_flash.c
+  stm32f4xx_hal_flash_ex.c
+  stm32f4xx_hal_cortex.c
+  stm32f4xx_hal_pwr.c
+  stm32f4xx_hal_flash_ramfunc.c
+  stm32f4xx_hal_uart.c
+  stm32f4xx_hal_rcc_ex.c
+  stm32f4xx_hal_pwr_ex.c
+  stm32f4xx_hal_spi.c
+  stm32f4xx_hal_tim_ex.c
+  stm32f4xx_hal_tim.c
+  stm32f4xx_hal_dma_ex.c
+  stm32f4xx_hal_dma.c
+  stm32f4xx_hal_rcc.c
+  system_stm32f4xx.c
+  tasks.c
+  timers.c
+  queue.c
+  croutine.c
+  list.c
+  cmsis_os.c
+  event_groups.c
+  port.c
+  heap_4.c
+  main.c
+  adc.c
+  can.c
+  dma.c
+  freertos.c
+  gpio.c
+  spi.c
+  tim.c
+  usart.c
+  stm32f4xx_it.c
+  stm32f4xx_hal_msp.c
+  stm32f4xx_hal_timebase_TIM.c
+  sysInit.c
+  bsp_can.c
+  bsp_imu.c
+  bsp_uart.c
+  CRC.c
+  pid.c
+  display.c
+  oled.c
+  key.c
+  referee.c
+  chassisTask.c
+  gimbalTask.c
+  shootTask.c
+  commonTask.c
+  startup_stm32f427xx.c
+  Linking ../VisualGDB/Debug/TJUT-RM-Firmware-2019...
+  ------------------- Memory utilization report -------------------
+  Used FLASH: 42KB out of 2048KB (2%)
+  Used SRAM: 20KB out of 192KB (10%)
+  Used CCMRAM: 0 bytes out of 64KB (0%)

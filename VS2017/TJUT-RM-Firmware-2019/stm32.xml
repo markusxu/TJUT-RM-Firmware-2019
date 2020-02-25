@@ -49,7 +49,7 @@
     <AllDependencies>
       <ProjectDependency>
         <RelativePath>..\..\MDK-ARM\TJUT-RM-Firmware-2019.uvprojx</RelativePath>
-        <Timestamp>132252610884287791</Timestamp>
+        <Timestamp>132270893911071363</Timestamp>
       </ProjectDependency>
     </AllDependencies>
     <RootDirectory>

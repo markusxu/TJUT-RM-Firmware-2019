@@ -34,3 +34,7 @@ JLinkLog.txt
 *.ini
 *.sct
 *.uvguix.*
+/VS2017/.vs/TJUT-RM-Firmware-2019/v15/Browse.VC.db
+/VS2017/.vs/TJUT-RM-Firmware-2019/v15/Browse.VC.opendb
+/VS2017/TJUT-RM-Firmware-2019/VisualGDB/Debug/TJUT-RM-Firmware-2019.alldeps
+*.rsp

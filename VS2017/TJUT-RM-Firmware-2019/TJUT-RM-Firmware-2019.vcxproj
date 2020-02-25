@@ -42,7 +42,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|VisualGDB'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\Device\Inc;..\..\Drivers\STM32F4xx_HAL_Driver\Inc;..\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\middlewares\third_party\freertos\source\portable\gcc\arm_cm4f;..\..\Middlewares\Third_Party\FreeRTOS\Source\include;..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;..\..\Drivers\CMSIS\Include;..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\..\BSP\Inc;..\..\Function\Inc;..\..\USER\Inc;..\..\Task\Inc;..\..\System\Inc;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>flash_layout;USE_HAL_DRIVER;STM32F427xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG=1;flash_layout;USE_HAL_DRIVER;STM32F427xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions />
       <CLanguageStandard>iso9899_2011</CLanguageStandard>
       <CPPLanguageStandard>CPP1Z</CPPLanguageStandard>
@@ -58,7 +58,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|VisualGDB'">
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\Device\Inc;..\..\Drivers\STM32F4xx_HAL_Driver\Inc;..\..\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy;..\..\middlewares\third_party\freertos\source\portable\gcc\arm_cm4f;..\..\Middlewares\Third_Party\FreeRTOS\Source\include;..\..\Middlewares\Third_Party\FreeRTOS\Source\CMSIS_RTOS;..\..\Drivers\CMSIS\Include;..\..\Drivers\CMSIS\Device\ST\STM32F4xx\Include;..\..\BSP\Inc;..\..\Function\Inc;..\..\USER\Inc;..\..\Task\Inc;..\..\System\Inc;%(ClCompile.AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>flash_layout;USE_HAL_DRIVER;STM32F427xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG=1;RELEASE=1;flash_layout;USE_HAL_DRIVER;STM32F427xx;%(ClCompile.PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions />
       <CLanguageStandard />
       <CPPLanguageStandard />
